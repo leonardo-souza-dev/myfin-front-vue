@@ -1,9 +1,11 @@
 <template>
   <li class="dia" :id="this.id" @dragover="onDragOver" @drop="onDrop">
     <h1 class="dia-titulo">{{ this.dia.diaDaSemana }}</h1>
+    <h6 class="data-subtitulo">{{ this.id }}</h6>
     <ul class="tarefas">
       <li v-for="tarefa in this.dia.tarefas" :key="tarefa.id">
-        <tarefa :descricao="tarefa.descricao" :id="tarefa.id" :data="tarefa.data" />
+        <!-- <tarefa :descricao="tarefa.descricao" :id="tarefa.id" :data="tarefa.data" :pontos="tarefa.pontos" /> -->
+        <tarefa :tarefa="tarefa" />
       </li>
     </ul>
     <input
@@ -17,11 +19,11 @@
 </template>
 
 <script>
-import Tarefa from "../tarefa/Tarefa.vue";
+import Tarefa from '../tarefa/Tarefa.vue';
 
 export default {
-  name: "dia",
-  props: ["dia", "id", 'removerTarefaListener'/*, 'diaDaSemana'*/],
+  name: 'dia',
+  props: ['dia', 'id', 'removerTarefaListener'],
   components: {
     tarefa: Tarefa,
   },
@@ -55,18 +57,17 @@ export default {
             id: tarefaJson.id,
             descricao: tarefaJson.descricao,
             data: this.id,
+            pontos: Number(tarefaJson.pontos)
           })
           .then(
             (response) => {
-              //debugger;
               if (response.status === 200 && response.body) {
-                //debugger;
-                //console.warn("tarefa alterada com sucesso");
                 this.dia.tarefas.push({ 
                   id: tarefaJson.id, 
                   descricao: tarefaJson.descricao, 
-                  data: new Date(this.id).toISOString().substring(0, 19) });
-                //debugger;
+                  data: new Date(this.id).toISOString().substring(0, 19),
+                  pontos: tarefaJson.pontos
+                })
                 this.avisarSemanaRemocaoTarefa(tarefaJson.id, tarefaJson.data)
               }
             },
@@ -145,6 +146,12 @@ export default {
   width: 100%;
   padding: 0px;
   margin: 0px;
+}
+.data-subtitulo {
+  width: 100%;
+  padding: 0px;
+  margin: 0px;
+  font-size: 9px;
 }
 .tarefas {
   list-style-type: none;
