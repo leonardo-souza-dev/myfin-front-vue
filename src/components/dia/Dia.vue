@@ -1,9 +1,9 @@
 <template>
-  <li class="dia" :id="this.id">
+  <li class="dia" :id="this.id" @dragover="onDragOver" @drop="onDrop">
     <h1 class="dia-titulo">{{ this.dia.diaDaSemana }}</h1>
     <ul class="tarefas">
       <li v-for="tarefa in this.dia.tarefas" :key="tarefa.id">
-        <tarefa :descricao="tarefa.descricao" />
+        <tarefa :descricao="tarefa.descricao" :id="tarefa.id" :data="tarefa.data" />
       </li>
     </ul>
     <input
@@ -21,22 +21,69 @@ import Tarefa from "../tarefa/Tarefa.vue";
 
 export default {
   name: "dia",
-  props: ["dia", "id"],
+  props: ["dia", "id", 'removerTarefaListener'/*, 'diaDaSemana'*/],
   components: {
     tarefa: Tarefa,
   },
   data() {
     return {
-      //tarefas: [],
       ehVisivel: false,
     };
   },
   methods: {
+    avisarSemanaRemocaoTarefa(idTarefa, dia) {
+      //debugger;
+      this.$emit('removerTarefaListener', idTarefa, dia)
+    },
+    onDragOver: function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+    },
+    onDrop: function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      //debugger;
+
+      const tarefaJson = JSON.parse(e.dataTransfer.getData("text/plain"));
+      console.warn('tarefaJsonnnn ')
+      console.warn(tarefaJson)
+      if (e.currentTarget.getAttribute("diadasemana") !== null) {
+        this.$http
+          .post("https://localhost:5001/alterar", {
+            id: tarefaJson.id,
+            descricao: tarefaJson.descricao,
+            data: this.id,
+          })
+          .then(
+            (response) => {
+              //debugger;
+              if (response.status === 200 && response.body) {
+                //debugger;
+                console.warn("tarefa alterada com sucesso");
+                this.dia.tarefas.push({ 
+                  id: tarefaJson.id, 
+                  descricao: tarefaJson.descricao, 
+                  data: new Date(tarefaJson.data) });
+                //debugger;
+                this.avisarSemanaRemocaoTarefa(tarefaJson.id, tarefaJson.data)
+              }
+            },
+            (response) => {
+              console.error(response);
+            }
+          );
+      } else {
+        console.log('nao encontrado currentTarget')
+      }
+    },
     confirmarNovaTarefa(e) {
       const descricao = e.target.value;
       if (e.key == "Enter") {
         this.$http
-          .put("https://localhost:5001/criar", { descricao: descricao, data: this.id })
+          .put("https://localhost:5001/criar", {
+            descricao: descricao,
+            data: this.id,
+          })
           .then(
             (response) => {
               if (response.status === 200 && response.body) {

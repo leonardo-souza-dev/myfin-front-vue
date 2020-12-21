@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div draggable="true" @dragstart="onDragStart" :id="this.id">
     <b-button v-b-modal.rating-modal @click="showModal()" class="tarefa">
       {{ this.descricao }}
     </b-button>
@@ -37,7 +37,7 @@
 <script>
 export default {
   name: "tarefa",
-  props: ["descricao"],
+  props: ["descricao", "id", "data"],
   methods: {
     showModal() {
       this.$refs["rating-modal"].show();
@@ -45,6 +45,16 @@ export default {
     hideModal() {
       this.$refs["rating-modal"].hide();
     },
+    onDragStart: function(e) {
+      //debugger;
+      e.dataTransfer.dropEffect = "move";
+      const objetoTransfer = {
+        id: this.id,
+        descricao: this.descricao,
+        data: this.data
+      }
+      e.dataTransfer.setData('text/plain', JSON.stringify(objetoTransfer))
+    }
   },
 };
 </script>
