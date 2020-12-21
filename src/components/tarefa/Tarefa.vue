@@ -53,6 +53,8 @@ export default {
         descricao: this.descricao,
         data: this.data
       }
+      console.warn('a tarefa que esta sendo arrastada é:')
+      console.warn(objetoTransfer)
       e.dataTransfer.setData('text/plain', JSON.stringify(objetoTransfer))
     }
   },

@@ -45,8 +45,10 @@ export default {
       //debugger;
 
       const tarefaJson = JSON.parse(e.dataTransfer.getData("text/plain"));
-      console.warn('tarefaJsonnnn ')
+      
+      console.warn('tarefa que está sendo largada é:')
       console.warn(tarefaJson)
+
       if (e.currentTarget.getAttribute("diadasemana") !== null) {
         this.$http
           .post("https://localhost:5001/alterar", {
@@ -59,11 +61,11 @@ export default {
               //debugger;
               if (response.status === 200 && response.body) {
                 //debugger;
-                console.warn("tarefa alterada com sucesso");
+                //console.warn("tarefa alterada com sucesso");
                 this.dia.tarefas.push({ 
                   id: tarefaJson.id, 
                   descricao: tarefaJson.descricao, 
-                  data: new Date(tarefaJson.data) });
+                  data: new Date(this.id).toISOString().substring(0, 19) });
                 //debugger;
                 this.avisarSemanaRemocaoTarefa(tarefaJson.id, tarefaJson.data)
               }

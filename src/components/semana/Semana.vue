@@ -89,7 +89,7 @@ export default {
   methods: {
     removerTarefa(id, data) {
       //debugger;
-      console.warn(id + " " + data + " " + new Date(data).getDay());
+      //console.warn(id + " " + data + " " + new Date(data).getDay());
       const diaIndice = new Date(data).getDay()
       let tarefasDia = []
       switch (diaIndice) {
