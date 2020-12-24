@@ -4,7 +4,6 @@
     <h6 class="data-subtitulo">{{ this.id }}</h6>
     <ul class="tarefas">
       <li v-for="tarefa in this.dia.tarefas" :key="tarefa.id">
-        <!-- <tarefa :descricao="tarefa.descricao" :id="tarefa.id" :data="tarefa.data" :pontos="tarefa.pontos" /> -->
         <tarefa :tarefa="tarefa" />
       </li>
     </ul>
@@ -13,6 +12,7 @@
       ref="nova"
       v-bind:class="{ visivel: this.ehVisivel, escondido: !this.ehVisivel }"
       v-on:keydown="confirmarNovaTarefa"
+      v-on:blur="clicouFora"
     />
     <button class="nova-tarefa" @click="adicionarTarefa()">Nova tarefa</button>
   </li>
@@ -33,6 +33,15 @@ export default {
     };
   },
   methods: {
+    clicouFora(e) {
+      if (e.target.value){
+        this.criarTarefa(e.target.value)
+        this.ehVisivel = false
+        this.limparDescricao()
+      } else {
+        this.ehVisivel = false
+      }
+    },
     avisarSemanaRemocaoTarefa(idTarefa, dia) {
       //debugger;
       this.$emit('removerTarefaListener', idTarefa, dia)
@@ -80,27 +89,32 @@ export default {
       }
     },
     confirmarNovaTarefa(e) {
-      const descricao = e.target.value;
       if (e.key == "Enter") {
-        this.$http
-          .put("https://localhost:5001/criar", {
-            descricao: descricao,
-            data: this.id,
-          })
-          .then(
-            (response) => {
-              if (response.status === 200 && response.body) {
-                console.warn("tarefa criada com sucesso");
-                this.dia.tarefas.push({ descricao: descricao });
-                e.target.value = "";
-                this.ehVisivel = false;
-              }
-            },
-            (response) => {
-              console.error(response);
-            }
-          );
+        this.criarTarefa(e.target.value);
       }
+    },
+    limparDescricao(){
+      this.$refs.nova.value = ''
+    },
+    criarTarefa(descricao, limparDescricao){
+      this.$http
+        .put("https://localhost:5001/criar", {
+          descricao: descricao,
+          data: this.id,
+        })
+        .then(
+          (response) => {
+            if (response.status === 200 && response.body) {
+              console.warn("tarefa criada com sucesso");
+              this.dia.tarefas.push({ descricao: descricao });
+              this.limparDescricao()
+              this.ehVisivel = false;
+            }
+          },
+          (response) => {
+            console.error(response);
+          }
+        );      
     },
     adicionarTarefa() {
       this.ehVisivel = true;

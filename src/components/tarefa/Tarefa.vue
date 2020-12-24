@@ -60,7 +60,6 @@ export default {
   methods: {
     showModal() {
       this.$refs["rating-modal"].show();
-      console.warn("showww");
 
       //guarda valores iniciais
       this.tarefaAntesAbrirModal.id = this.tarefa.id;
@@ -69,8 +68,6 @@ export default {
     },
     hideModal1() {
       console.warn("modal ok");
-      //console.warn(this.tarefaAntesAbrirModal)
-      //alert('ok')
 
       if (
         this.tarefaAntesAbrirModal.descricao !== this.tarefa.descricao ||
@@ -93,9 +90,7 @@ export default {
               console.error(response);
             }
           );
-      } else {
-        alert("nao mudou nada");
-      }
+      } 
       this.$refs["rating-modal"].hide();
     },
     hideModal2() {
@@ -103,16 +98,14 @@ export default {
       this.$refs["rating-modal"].hide();
     },
     hideModal3() {
-      console.warn("modal close ");
+      console.warn("modal close");
       this.$refs["rating-modal"].hide();
     },
     hideModalEsc() {
-      console.warn("modal fechado com esc");
-      //alert('esc')
+      console.warn("modal fechado");
       this.$refs["rating-modal"].hide();
     },
     onDragStart: function (e) {
-      //debugger;
       e.dataTransfer.dropEffect = "move";
       const objetoTransfer = {
         id: this.tarefa.id,
@@ -120,8 +113,6 @@ export default {
         data: this.tarefa.data,
         pontos: this.tarefa.pontos
       };
-      console.warn('a tarefa que esta sendo arrastada é:')
-      console.warn(objetoTransfer)
       e.dataTransfer.setData("text/plain", JSON.stringify(objetoTransfer));
     },
   },
