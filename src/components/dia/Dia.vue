@@ -1,5 +1,9 @@
 <template>
-  <li class="dia" :id="this.id" @dragover="onDragOver" @drop="onDrop">
+  <li 
+    class="dia" 
+    :id="this.id" 
+    @dragover="onDragOver" @drop="onDrop"
+    >
     <h1 class="dia-titulo">{{ this.dia.diaDaSemana }}</h1>
     <h6 class="data-subtitulo">{{ this.id }}</h6>
     <ul class="tarefas">
@@ -7,40 +11,29 @@
         <tarefa :tarefa="tarefa" />
       </li>
     </ul>
-    <input
-      type="text"
-      ref="nova"
-      v-bind:class="{ visivel: this.ehVisivel, escondido: !this.ehVisivel }"
-      v-on:keydown="confirmarNovaTarefa"
-      v-on:blur="clicouFora"
-    />
-    <button class="nova-tarefa" @click="adicionarTarefa()">Nova tarefa</button>
-  </li>
+    <nova-tarefa :dia="this.id" />
+    </li>
 </template>
 
 <script>
-import Tarefa from '../tarefa/Tarefa.vue';
+import Tarefa from '../tarefa/Tarefa.vue'
+import NovaTarefa from '../novaTarefa/NovaTarefa.vue'
 
 export default {
   name: 'dia',
   props: ['dia', 'id', 'removerTarefaListener'],
   components: {
     tarefa: Tarefa,
+    novaTarefa: NovaTarefa
   },
   data() {
     return {
-      ehVisivel: false,
     };
   },
   methods: {
-    clicouFora(e) {
-      if (e.target.value){
-        this.criarTarefa(e.target.value)
-        this.ehVisivel = false
-        this.limparDescricao()
-      } else {
-        this.ehVisivel = false
-      }
+    adicionarTarefa(tarefa){
+      console.warn('adicionar tarefa')
+      this.dia.tarefas.push(tarefa);
     },
     avisarSemanaRemocaoTarefa(idTarefa, dia) {
       //debugger;
@@ -88,40 +81,6 @@ export default {
         console.log('nao encontrado currentTarget')
       }
     },
-    confirmarNovaTarefa(e) {
-      if (e.key == "Enter") {
-        this.criarTarefa(e.target.value);
-      }
-    },
-    limparDescricao(){
-      this.$refs.nova.value = ''
-    },
-    criarTarefa(descricao, limparDescricao){
-      this.$http
-        .put("https://localhost:5001/criar", {
-          descricao: descricao,
-          data: this.id,
-        })
-        .then(
-          (response) => {
-            if (response.status === 200 && response.body) {
-              console.warn("tarefa criada com sucesso");
-              this.dia.tarefas.push({ descricao: descricao });
-              this.limparDescricao()
-              this.ehVisivel = false;
-            }
-          },
-          (response) => {
-            console.error(response);
-          }
-        );      
-    },
-    adicionarTarefa() {
-      this.ehVisivel = true;
-      this.$nextTick(() => this.$refs.nova.focus());
-      //const idTicks = (new Date().getTime() * 10000) + 621355968000000000;
-      //this.tarefas.push({ ,descricao: "alow", id: idTicks})
-    },
     mudaDiaDaSemanaTemp() {
       this.dia.diaDaSemana = "ooo";
     },
@@ -135,26 +94,27 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .visivel {
   display: block;
 }
 .escondido {
   display: none;
 }
-.nota-tarefa {
-  width: 100%;
-}
 .dia {
-  background-color: #ffffff;
+  background-color: #eeeede;
   vertical-align: top;
   display: inline-block;
   padding: 10px;
   border: 1px;
-  border-color: black;
+  border-color: #dddddd;
   border-style: solid;
   margin: 0px;
+  margin-top: 4px;
   width: 180px;
+  min-width: 180px;
+  overflow: scroll;
+  white-space: nowrap;
 }
 .dia-titulo {
   width: 100%;

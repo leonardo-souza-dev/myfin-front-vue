@@ -119,18 +119,18 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .tarefa {
-  border: 1px;
+  border: 0px;
   border-color: black;
   border-style: solid;
-  margin: 6px;
+  margin: 2px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  font-size: 12px;
-  padding: 3px;
-  width: 90%;
-  height: 40px;
+  font-size: 10px;
+  padding: 1px;
+  width: 100%;
+  height: 36px;
 }
 </style>
