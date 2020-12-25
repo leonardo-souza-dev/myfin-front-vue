@@ -35,9 +35,8 @@ export default {
       console.warn('adicionar tarefa')
       this.dia.tarefas.push(tarefa);
     },
-    avisarSemanaRemocaoTarefa(idTarefa, dia) {
-      //debugger;
-      this.$emit('removerTarefaListener', idTarefa, dia)
+    avisarSemanaRemocaoTarefa(idTarefa, diaNovo) {
+      this.$emit('removerTarefaListener', idTarefa, diaNovo)
     },
     onDragOver: function (event) {
       event.preventDefault();
@@ -46,39 +45,28 @@ export default {
     onDrop: function (e) {
       e.preventDefault();
       e.stopPropagation();
-      //debugger;
-
-      const tarefaJson = JSON.parse(e.dataTransfer.getData("text/plain"));
-      
-      console.warn('tarefa que está sendo largada é:')
-      console.warn(tarefaJson)
-
+      debugger;
+      let tarefaJson = JSON.parse(e.dataTransfer.getData("text/plain"));
+      const dataAntiga = tarefaJson.data
+      const novaData = this.$converterDeYYYY_MM_DDParaDataISOShort(this.id)
+      tarefaJson.data = novaData
+      //tarefaJson.pontos = Number(tarefaJson.pontos)      
+      //console.warn('tarefa que está sendo largada é:')
+      //console.warn(tarefaJson)
       if (e.currentTarget.getAttribute("diadasemana") !== null) {
         this.$http
-          .post("https://localhost:5001/alterar", {
-            id: tarefaJson.id,
-            descricao: tarefaJson.descricao,
-            data: this.id,
-            pontos: Number(tarefaJson.pontos)
-          })
+          .post("https://localhost:5001/alterar", tarefaJson)
           .then(
             (response) => {
               if (response.status === 200 && response.body) {
-                this.dia.tarefas.push({ 
-                  id: tarefaJson.id, 
-                  descricao: tarefaJson.descricao, 
-                  data: new Date(this.id).toISOString().substring(0, 19),
-                  pontos: tarefaJson.pontos
-                })
-                this.avisarSemanaRemocaoTarefa(tarefaJson.id, tarefaJson.data)
+                this.dia.tarefas.push(tarefaJson)
+                this.avisarSemanaRemocaoTarefa(tarefaJson.id, dataAntiga)
               }
             },
             (response) => {
               console.error(response);
             }
           );
-      } else {
-        console.log('nao encontrado currentTarget')
       }
     },
     mudaDiaDaSemanaTemp() {
@@ -102,7 +90,7 @@ export default {
   display: none;
 }
 .dia {
-  background-color: #eeeede;
+  background-color: #eeeeee;
   vertical-align: top;
   display: inline-block;
   padding: 10px;

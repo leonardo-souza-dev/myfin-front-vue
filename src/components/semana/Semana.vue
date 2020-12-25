@@ -88,9 +88,9 @@ export default {
   },
   methods: {
     removerTarefa(id, data) {
-      //debugger;
-      //console.warn(id + " " + data + " " + new Date(data).getDay());
-      const diaIndice = new Date(data).getDay()
+      const dataConvertida = this.$converterData(data)
+      const diaIndice = new Date(dataConvertida).getDay()
+      debugger
       let tarefasDia = []
       switch (diaIndice) {
         case 0:

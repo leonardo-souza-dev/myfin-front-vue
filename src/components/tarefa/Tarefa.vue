@@ -107,13 +107,7 @@ export default {
     },
     onDragStart: function (e) {
       e.dataTransfer.dropEffect = "move";
-      const objetoTransfer = {
-        id: this.tarefa.id,
-        descricao: this.tarefa.descricao,
-        data: this.tarefa.data,
-        pontos: this.tarefa.pontos
-      };
-      e.dataTransfer.setData("text/plain", JSON.stringify(objetoTransfer));
+      e.dataTransfer.setData("text/plain", JSON.stringify(this.tarefa));
     },
   },
 };

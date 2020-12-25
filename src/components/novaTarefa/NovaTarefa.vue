@@ -8,7 +8,12 @@
       v-on:keydown="confirmarNovaTarefa"
       v-on:blur="clicouFora"
     />
-    <button :class="btnStyle" @click="adicionarTarefa()" @mouseover="mouseOverCriarTarefa">+ Criar tarefa</button>
+    <button 
+      :class="btnStyle" 
+      @click="adicionarTarefa()" 
+      @mouseover="mouseOverCriarTarefa"
+      @mouseout="mouseOutCriarTarefa"
+      >+ Criar tarefa</button>
   </div>
 </template>
 
@@ -28,6 +33,9 @@ export default {
     },
     mouseOverCriarTarefa(){
       this.btnStyle = 'nova-tarefa-mouseover'
+    },
+    mouseOutCriarTarefa(){
+      this.btnStyle = 'nova-tarefa'
     },
     clicouFora(e) {
       if (e.target.value){
@@ -75,8 +83,9 @@ export default {
 }
 </script>
 
-<style>
-.nota-tarefa {
+<style scoped>
+.nova-tarefa {
+  background-color: #eeeeee;
   border: 0px;
   border-color: black;
   border-style: solid;
@@ -89,7 +98,8 @@ export default {
   width: 100%;
   height: 36px;
 }
-.nota-tarefa-mouseover {
+.nova-tarefa-mouseover {
+  background-color: #dddddd;
   color: '#AAAAAA';
   border: 0px;
   border-color: black;
