@@ -45,12 +45,11 @@ export default {
     onDrop: function (e) {
       e.preventDefault();
       e.stopPropagation();
-      debugger;
+      //debugger;
       let tarefaJson = JSON.parse(e.dataTransfer.getData("text/plain"));
       const dataAntiga = tarefaJson.data
       const novaData = this.$converterDeYYYY_MM_DDParaDataISOShort(this.id)
-      tarefaJson.data = novaData
-      //tarefaJson.pontos = Number(tarefaJson.pontos)      
+      tarefaJson.data = novaData    
       //console.warn('tarefa que está sendo largada é:')
       //console.warn(tarefaJson)
       if (e.currentTarget.getAttribute("diadasemana") !== null) {

@@ -90,7 +90,7 @@ export default {
     removerTarefa(id, data) {
       const dataConvertida = this.$converterData(data)
       const diaIndice = new Date(dataConvertida).getDay()
-      debugger
+      //debugger
       let tarefasDia = []
       switch (diaIndice) {
         case 0:

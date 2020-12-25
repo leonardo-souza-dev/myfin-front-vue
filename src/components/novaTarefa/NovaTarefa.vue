@@ -58,10 +58,11 @@ export default {
     limparDescricao(){
       this.$refs.nova.value = ''
     },
-    criarTarefa(descricao, limparDescricao){
+    criarTarefa(descricao){
       const novaTarefa = {
           descricao: descricao,
-          data: this.dia
+          data: this.dia,
+          pontos: 0
       }
       this.$http
         .put("https://localhost:5001/criar", novaTarefa)
@@ -69,7 +70,7 @@ export default {
           (response) => {
             if (response.status === 200 && response.body) {
               console.warn("tarefa criada com sucesso");
-              this.$parent.adicionarTarefa(novaTarefa)
+              this.$parent.adicionarTarefa(response.body)
               this.limparDescricao()
               this.ehVisivel = false;
             }

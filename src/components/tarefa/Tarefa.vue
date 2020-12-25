@@ -68,18 +68,14 @@ export default {
     },
     hideModal1() {
       console.warn("modal ok");
+      //debugger;
 
       if (
         this.tarefaAntesAbrirModal.descricao !== this.tarefa.descricao ||
         this.tarefaAntesAbrirModal.pontos !== this.tarefa.pontos
       ) {
         this.$http
-          .post("https://localhost:5001/alterar", {
-            id: this.tarefa.id,
-            descricao: this.tarefa.descricao,
-            data: this.tarefa.data,
-            pontos: Number(this.tarefa.pontos)
-          })
+          .post("https://localhost:5001/alterar", this.tarefa)
           .then(
             (response) => {
               if (response.status === 200 && response.body) {
@@ -106,6 +102,9 @@ export default {
       this.$refs["rating-modal"].hide();
     },
     onDragStart: function (e) {
+      //console.log('onDragStart iniciado')
+      //console.log(this.tarefa)
+
       e.dataTransfer.dropEffect = "move";
       e.dataTransfer.setData("text/plain", JSON.stringify(this.tarefa));
     },
