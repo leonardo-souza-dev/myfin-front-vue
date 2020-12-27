@@ -1,52 +1,47 @@
 <template>
-  <li 
-    class="dia" 
-    :id="this.id" 
-    @dragover="onDragOver" @drop="onDrop"
-    >
-    <h4 class="dia-titulo">{{ this.dia.diaDaSemana }}</h4>
+  <li class="dia" :id="this.id" @dragover="onDragOver" @drop="onDrop">
+    
     <h6 class="data-subtitulo">{{ this.id }}</h6>
     <ul class="tarefas">
       <li v-for="tarefa in this.dia.tarefas" :key="tarefa.id">
-        <tarefa :tarefa="tarefa" :indiceSemana="indiceSemana"/>
+        <tarefa :tarefa="tarefa" :indiceSemana="indiceSemana" />
       </li>
     </ul>
     <nova-tarefa :dia="this.id" />
-    </li>
+  </li>
 </template>
 
 <script>
-import Tarefa from '../tarefa/Tarefa.vue'
-import NovaTarefa from '../novaTarefa/NovaTarefa.vue'
+import Tarefa from "../tarefa/Tarefa.vue";
+import NovaTarefa from "../novaTarefa/NovaTarefa.vue";
 
 export default {
-  name: 'dia',
-  props: ['dia', 'id', 'removerTarefaListener', 'indiceSemana'],
+  name: "dia",
+  props: ["dia", "id", "removerTarefaListener", "indiceSemana"],
   components: {
     tarefa: Tarefa,
-    novaTarefa: NovaTarefa
+    novaTarefa: NovaTarefa,
   },
   data() {
-    return {
-    };
+    return {};
   },
-  created(){
-    this.dia.retiraTarefa = this.retiraTarefa
+  created() {
+    this.dia.retiraTarefa = this.retiraTarefa;
   },
   methods: {
-    retiraTarefa(id){
-      for(let i = 0; i < this.dia.tarefas.length; i++) {
-        if (this.dia.tarefas[i].id === id){
-          this.dia.tarefas.splice(i, 1)
+    retiraTarefa(id) {
+      for (let i = 0; i < this.dia.tarefas.length; i++) {
+        if (this.dia.tarefas[i].id === id) {
+          this.dia.tarefas.splice(i, 1);
         }
       }
     },
-    adicionarTarefa(tarefa){
-      console.warn('adicionar tarefa')
+    adicionarTarefa(tarefa) {
+      console.warn("adicionar tarefa");
       this.dia.tarefas.push(tarefa);
     },
     avisarSemanaRemocaoTarefa(idTarefa, diaNovo) {
-      this.$emit('removerTarefaListener', idTarefa, diaNovo)
+      this.$emit("removerTarefaListener", idTarefa, diaNovo);
     },
     onDragOver: function (event) {
       event.preventDefault();
@@ -56,28 +51,30 @@ export default {
       e.preventDefault();
       e.stopPropagation();
       //debugger;
-      let tarefaJson = JSON.parse(e.dataTransfer.getData("text/plain"))
+      let tarefaJson = JSON.parse(e.dataTransfer.getData("text/plain"));
 
       //console.warn('tarefa que está sendo largada (por enquanto) é:')
       //console.warn(tarefaJson)
 
-      const dataAntiga = tarefaJson.data
-      const novaData = this.$converterDeYYYY_MM_DDParaDataISOShort(this.id)
-      tarefaJson.data = novaData
+      const dataAntiga = tarefaJson.data;
+      const novaData = this.$converterDeYYYY_MM_DDParaDataISOShort(this.id);
+      tarefaJson.data = novaData;
       if (e.currentTarget.getAttribute("diadasemana") !== null) {
-        this.$http
-          .post("https://localhost:5001/alterar", tarefaJson)
-          .then(
-            (response) => {
-              if (response.status === 200 && response.body) {
-                this.dia.tarefas.push(tarefaJson)
-                this.$parent.removerTarefa2(tarefaJson.id, dataAntiga, tarefaJson.semanaAntiga)
-              }
-            },
-            (response) => {
-              console.error(response);
+        this.$http.post("https://localhost:5001/alterar", tarefaJson).then(
+          (response) => {
+            if (response.status === 200 && response.body) {
+              this.dia.tarefas.push(tarefaJson);
+              this.$parent.removerTarefa2(
+                tarefaJson.id,
+                dataAntiga,
+                tarefaJson.semanaAntiga
+              );
             }
-          );
+          },
+          (response) => {
+            console.error(response);
+          }
+        );
       }
     },
     mudaDiaDaSemanaTemp() {

@@ -1,9 +1,44 @@
 <template>
-  <ul class="ano">
-    <li v-for="(semana, indice) in this.semanas" :key="semana.id">
-      <semana :semana="semana" :dataInicial="semana.dias[0].data" :indice="indice" :removerTarefa="avisoRemoverTarefa" />
-    </li>
-  </ul>
+  <div>
+    <!-- <ul class="cabecalho-dias-da-semana">
+      <li> -->
+        <ul class="cabecalho-semana">
+          <li class="cabecalho-dia">
+            <h4>dom</h4>
+          </li>
+          <li class="cabecalho-dia">
+            <h4>seg</h4>
+          </li>
+          <li class="cabecalho-dia">
+            <h4>ter</h4>
+          </li>
+          <li class="cabecalho-dia">
+            <h4>qua</h4>
+          </li>
+          <li class="cabecalho-dia">
+            <h4>qui</h4>
+          </li>
+          <li class="cabecalho-dia">
+            <h4>sex</h4>
+          </li>
+          <li class="cabecalho-dia">
+            <h4>sab</h4>
+          </li>
+        </ul>
+      <!-- </li>
+    </ul> -->
+
+    <ul class="ano">
+      <li v-for="(semana, indice) in this.semanas" :key="semana.id">
+        <semana
+          :semana="semana"
+          :dataInicial="semana.dias[0].data"
+          :indice="indice"
+          :removerTarefa="avisoRemoverTarefa"
+        />
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>
@@ -18,15 +53,17 @@ export default {
     return {
       dataInicial: this.obterUltimoDomingo(),
       semanas: [],
-      qtdSemanas: 2
+      qtdSemanas: 3,
     };
   },
   methods: {
-    avisoRemoverTarefa(){
-
-    },
-    removerTarefa3(id, dataAntiga, indiceSemanaAntiga){
-      this.semanas[indiceSemanaAntiga].tirarTarefa(id, dataAntiga, indiceSemanaAntiga)
+    avisoRemoverTarefa() {},
+    removerTarefa3(id, dataAntiga, indiceSemanaAntiga) {
+      this.semanas[indiceSemanaAntiga].tirarTarefa(
+        id,
+        dataAntiga,
+        indiceSemanaAntiga
+      );
     },
     formatarData(data) {
       const ano = data.getFullYear();
@@ -37,7 +74,7 @@ export default {
     },
     obterUltimoDomingo() {
       const hoje = new Date();
-      const defasagemDeDomingo = - hoje.getDay();
+      const defasagemDeDomingo = -hoje.getDay();
       const domingo = this.somaDias(hoje, defasagemDeDomingo);
 
       return domingo;
@@ -47,7 +84,7 @@ export default {
       let result = new Date(date);
       result.setDate(result.getDate() + days);
       return result;
-    }
+    },
   },
   created() {
     const dataInicialParam = this.formatarData(this.dataInicial);
@@ -56,18 +93,42 @@ export default {
         `https://localhost:5001/obter-semanas?primeiroDia=${dataInicialParam}&qtdSemanas=${this.qtdSemanas}`
       )
       .then((res) => res.json())
-      .then((dados) => { 
-        //dados.forEach(x => { x.tirarTarefa = function(){ }; })
-        this.semanas = dados;
+      .then(
+        (dados) => {
+          this.semanas = dados;
         },
-            (err) => console.log(err)
+        (err) => console.log(err)
       );
-  }
+  },
 };
 </script>
 
 <style scoped>
 .ano {
-  list-style-type: none;  
+  list-style-type: none;
+}
+.cabecalho-semana {
+  list-style-type: none;
+    display: inline-block;
+    overflow: auto;
+    overflow-y: hidden;
+    max-width: 100%;
+    margin: 1;
+    white-space: nowrap;
+}
+.cabecalho-dia {
+    background-color: #eeeeee;
+    vertical-align: top;
+    display: inline-block;
+    padding: 10px;
+    border: 1px;
+    border-color: #dddddd;
+    border-style: solid;
+    margin: 0px;
+    margin-top: 4px;
+    width: 180px;
+    min-width: 180px;
+    overflow: scroll;
+    white-space: nowrap;
 }
 </style>
