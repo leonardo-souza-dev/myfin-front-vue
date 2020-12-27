@@ -4,11 +4,11 @@
     :id="this.id" 
     @dragover="onDragOver" @drop="onDrop"
     >
-    <h1 class="dia-titulo">{{ this.dia.diaDaSemana }}</h1>
+    <h4 class="dia-titulo">{{ this.dia.diaDaSemana }}</h4>
     <h6 class="data-subtitulo">{{ this.id }}</h6>
     <ul class="tarefas">
       <li v-for="tarefa in this.dia.tarefas" :key="tarefa.id">
-        <tarefa :tarefa="tarefa" />
+        <tarefa :tarefa="tarefa" :indiceSemana="indiceSemana"/>
       </li>
     </ul>
     <nova-tarefa :dia="this.id" />
@@ -21,7 +21,7 @@ import NovaTarefa from '../novaTarefa/NovaTarefa.vue'
 
 export default {
   name: 'dia',
-  props: ['dia', 'id', 'removerTarefaListener'],
+  props: ['dia', 'id', 'removerTarefaListener', 'indiceSemana'],
   components: {
     tarefa: Tarefa,
     novaTarefa: NovaTarefa
@@ -30,7 +30,17 @@ export default {
     return {
     };
   },
+  created(){
+    this.dia.retiraTarefa = this.retiraTarefa
+  },
   methods: {
+    retiraTarefa(id){
+      for(let i = 0; i < this.dia.tarefas.length; i++) {
+        if (this.dia.tarefas[i].id === id){
+          this.dia.tarefas.splice(i, 1)
+        }
+      }
+    },
     adicionarTarefa(tarefa){
       console.warn('adicionar tarefa')
       this.dia.tarefas.push(tarefa);
@@ -46,12 +56,14 @@ export default {
       e.preventDefault();
       e.stopPropagation();
       //debugger;
-      let tarefaJson = JSON.parse(e.dataTransfer.getData("text/plain"));
+      let tarefaJson = JSON.parse(e.dataTransfer.getData("text/plain"))
+
+      //console.warn('tarefa que está sendo largada (por enquanto) é:')
+      //console.warn(tarefaJson)
+
       const dataAntiga = tarefaJson.data
       const novaData = this.$converterDeYYYY_MM_DDParaDataISOShort(this.id)
-      tarefaJson.data = novaData    
-      //console.warn('tarefa que está sendo largada é:')
-      //console.warn(tarefaJson)
+      tarefaJson.data = novaData
       if (e.currentTarget.getAttribute("diadasemana") !== null) {
         this.$http
           .post("https://localhost:5001/alterar", tarefaJson)
@@ -59,7 +71,7 @@ export default {
             (response) => {
               if (response.status === 200 && response.body) {
                 this.dia.tarefas.push(tarefaJson)
-                this.avisarSemanaRemocaoTarefa(tarefaJson.id, dataAntiga)
+                this.$parent.removerTarefa2(tarefaJson.id, dataAntiga, tarefaJson.semanaAntiga)
               }
             },
             (response) => {
@@ -111,7 +123,7 @@ export default {
 .data-subtitulo {
   width: 100%;
   padding: 0px;
-  margin: 0px;
+  margin-bottom: 8px;
   font-size: 9px;
 }
 .tarefas {

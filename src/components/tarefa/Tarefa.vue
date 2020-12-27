@@ -51,7 +51,7 @@
 <script>
 export default {
   name: "tarefa",
-  props: ["tarefa"],
+  props: ["tarefa", "indiceSemana"],
   data() {
     return {
       tarefaAntesAbrirModal: {},
@@ -106,6 +106,7 @@ export default {
       //console.log(this.tarefa)
 
       e.dataTransfer.dropEffect = "move";
+      this.tarefa.semanaAntiga = this.indiceSemana
       e.dataTransfer.setData("text/plain", JSON.stringify(this.tarefa));
     },
   },

@@ -1,48 +1,18 @@
 <template>
-  <ul class="semana">
-    <dia
-      diaDaSemana="dom"
-      v-on:removerTarefaListener="removerTarefa"
-      :id="formatarData(this.dataInicial)"
-      :dia="this.diaDom"
-    />
-    <dia
-      diaDaSemana="seg"
-      v-on:removerTarefaListener="removerTarefa"
-      :id="formatarData(somaDias(this.dataInicial, 1))"
-      :dia="this.diaSeg"
-    />
-    <dia
-      diaDaSemana="ter"
-      v-on:removerTarefaListener="removerTarefa"
-      :id="formatarData(somaDias(this.dataInicial, 2))"
-      :dia="this.diaTer"
-    />
-    <dia
-      diaDaSemana="qua"
-      v-on:removerTarefaListener="removerTarefa"
-      :id="formatarData(somaDias(this.dataInicial, 3))"
-      :dia="this.diaQua"
-    />
-    <dia
-      diaDaSemana="qui"
-      v-on:removerTarefaListener="removerTarefa"
-      :id="formatarData(somaDias(this.dataInicial, 4))"
-      :dia="this.diaQui"
-    />
-    <dia
-      diaDaSemana="sex"
-      v-on:removerTarefaListener="removerTarefa"
-      :id="formatarData(somaDias(this.dataInicial, 5))"
-      :dia="this.diaSex"
-    />
-    <dia
-      diaDaSemana="sab"
-      v-on:removerTarefaListener="removerTarefa"
-      :id="formatarData(somaDias(this.dataInicial, 6))"
-      :dia="this.diaSab"
-    />
-  </ul>
+  <div>
+    <p>{{ this.semana.num }}</p>
+    <ul class="semana" :id="this.semana.num">
+      <dia
+        v-for="dia in this.semana.dias"
+        :key="dia.id"
+        :diaDaSemana="dia.diaDaSemana"
+        v-on:removerTarefaListener="removerTarefa"
+        :id="dia.data.substring(0, 10)"
+        :dia="dia"
+        :indiceSemana="indice"
+      />
+    </ul>
+  </div>
 </template>
 
 <script>
@@ -52,68 +22,57 @@ export default {
   components: {
     dia: Dia,
   },
+  props: ["semana", "diaInicial", "indice"],
   name: "semana",
   data() {
     return {
-      dataInicial: this.obterDomingo(),
-      diaDom: {},
-      diaSeg: {},
-      diaTer: {},
-      diaQua: {},
-      diaQui: {},
-      diaSex: {},
-      diaSab: {},
+      dias: [],
     };
   },
-  created() {
-    const dataInicialParam = this.formatarData(this.dataInicial);
-    this.$http
-      .get(
-        "https://localhost:5001/obter-semana?primeiroDia=" + dataInicialParam
-      )
-      .then((res) => res.json())
-      .then(
-        function (data) {
-          this.diaDom = data.dias[0];
-          this.diaSeg = data.dias[1];
-          this.diaTer = data.dias[2];
-          this.diaQua = data.dias[3];
-          //debugger;
-          this.diaQui = data.dias[4];
-          this.diaSex = data.dias[5];
-          this.diaSab = data.dias[6];
-        },
-        (err) => console.log(err)
-      );
+  created(){
+    this.semana.tirarTarefa = this.tirarTarefa
   },
   methods: {
+    tirarTarefa(id, dataAntiga, indiceSemanaAntiga){
+      const numDestaSemana = this.semana.num
+      for(let i = 0; i < this.semana.dias.length; i++) {
+        const dia = this.semana.dias[i];
+        if (dia.data === dataAntiga){
+          dia.retiraTarefa(id)
+        }
+      }
+    },
+    removerTarefa2(id, data, indiceSemanaAntiga) {
+      this.$parent.removerTarefa3(id, data, indiceSemanaAntiga);
+    },
     removerTarefa(id, data) {
-      const dataConvertida = this.$converterData(data)
-      const diaIndice = new Date(dataConvertida).getDay()
+      var numDestaSemana = this.semana.num;
+      const dataConvertida = this.$converterData(data);
+      const diaIndice = new Date(dataConvertida).getDay();
       //debugger
-      let tarefasDia = []
+      let tarefasDia = [];
       switch (diaIndice) {
         case 0:
-          tarefasDia = this.diaDom.tarefas
-          break
+          tarefasDia = this.semana.dias[0].tarefas;
+          break;
         case 1:
-          tarefasDia = this.diaSeg.tarefas
-          break
+          tarefasDia = this.semana.dias[1].tarefas;
+          break;
         case 2:
-          tarefasDia = this.diaTer.tarefas
-          break
+          tarefasDia = this.semana.dias[2].tarefas;
+          break;
         case 3:
-          tarefasDia = this.diaQua.tarefas
-          break
+          tarefasDia = this.semana.dias[3].tarefas;
+          break;
         case 4:
-          tarefasDia = this.diaQui.tarefas
-          break
+          tarefasDia = this.semana.dias[4].tarefas;
+          break;
         case 5:
-          tarefasDia = this.diaSex.tarefas
-          break
+          tarefasDia = this.semana.dias[5].tarefas;
+          break;
         case 6:
-          tarefasDia = this.diaSab.tarefas
-          break
+          tarefasDia = this.semana.dias[6].tarefas;
+          break;
       }
       for (let i = 0; i < tarefasDia.length; i++) {
         const idTarefa = tarefasDia[i].id;
@@ -121,15 +80,6 @@ export default {
           tarefasDia.splice(i, 1);
         }
       }
-    },
-    gerarIdInicial() {
-      var dataInicial = new Date();
-      var dia = dataInicial.getDate();
-      var mes = dataInicial.getMonth() + 1;
-      var ano = dataInicial.getFullYear();
-      this.dataInicial = ano.toString() + mes.toString() + dia.toString();
-
-      return this.dataInicial;
     },
     processarDataDia(n) {
       return parseInt(this.dataInicial) + n;
