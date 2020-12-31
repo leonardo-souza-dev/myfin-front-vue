@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>{{ this.semana.num }}</p>
+    <p class="num-semana">{{ this.semana.num }}</p>
     <ul class="semana" :id="this.semana.num">
       <dia
         v-for="dia in this.semana.dias"
@@ -110,6 +110,9 @@ export default {
 </script>
 
 <style scoped>
+.num-semana{
+  position: absolute;
+}
 .semana {
   display: inline-block;
   overflow: auto;
