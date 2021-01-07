@@ -38,7 +38,7 @@ export default {
     return {
       dataInicial: this.obterUltimoDomingo(),
       semanas: [],
-      qtdSemanas: 3,
+      qtdSemanas: 4,
     };
   },
   methods: {

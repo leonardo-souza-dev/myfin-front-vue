@@ -1,12 +1,12 @@
 <template>
   <div draggable="true" @dragstart="onDragStart" :id="this.tarefa.id">
-    <a @click="showModal()" class="tarefa">
+    <a @click="showModal()" class="tarefa" :class="concluidoEstilo" >
       <div class="tarefa-detalhe">
         <span class="tarefa-titulo">
           {{ this.tarefa.descricao }}
         </span>
         <div class="badges">
-          <div class="badge-text">Pontos: {{ this.tarefa.pontos }}</div>
+          <div class="badge-text">Pontos previstos: {{ this.tarefa.pontosPrevistos }}</div>
         </div>
       </div>
     </a>
@@ -25,15 +25,39 @@
       @hide="hideModalEsc"
     >
       <b-form>
-        <b-form-group id="input-group-descricao" label="Descrição:" label-for="input-descricao">
-          <b-form-input id="input-descricao" v-model="tarefa.descricao" type="text" required placeholder="Descrição"></b-form-input>
-        </b-form-group>
-        <b-form-group id="input-group-pontos" label="Pontos:" label-for="input-pontos">
-          <b-form-input id="input-pontos" v-model="tarefa.pontos" type="number" placeholder="Pontos" ></b-form-input>
-        </b-form-group>
-        <b-form-group id="input-group-valor" label="Valor:" label-for="input-valor">
-          <b-form-input id="input-valor" v-model="tarefa.valor" type="number" placeholder="0.00" ></b-form-input>
-        </b-form-group>
+        <b-container>
+          <b-row>
+            <b-col>
+              <b-form-group id="input-group-descricao" label="Descrição:" label-for="input-descricao">
+                <b-form-input id="input-descricao" v-model="tarefa.descricao" type="text" required placeholder="Descrição" />
+              </b-form-group>
+            </b-col>
+          </b-row>
+          <b-row>
+            <b-col>
+              <b-form-group id="input-group-pontosPrevistos" label="Pontos previstos:" label-for="input-pontosPrevistos">
+                <b-form-input id="input-pontosPrevistos" v-model="tarefa.pontosPrevistos" type="number" placeholder="Pontos previstos" />
+              </b-form-group>
+            </b-col>
+            <b-col>
+              <b-form-group id="input-group-pontosRealizados" label="Pontos realizados:" label-for="input-pontosRealizados">
+                <b-form-input id="input-pontosRealizados" v-model="tarefa.pontosRealizados" type="number" />
+              </b-form-group>
+            </b-col>
+          </b-row>
+          <b-form-group id="input-group-concluido" label="Concluído:" label-for="input-concluido" >
+            <b-form-checkbox id="input-concluido" v-model="tarefa.concluido" @change="concluidoListener()" />
+          </b-form-group>
+          <b-form-group id="input-group-valor" prepend="R$" label="Valor:" label-for="input-valor">
+            <b-form-input id="input-valor" v-model="tarefa.valor" type="number" placeholder="0.00" ></b-form-input>
+          </b-form-group>
+          <b-form-group id="input-group-dataVcto" label="Vencimento:" label-for="input-dataVcto">
+            <b-form-datepicker id="input-dataVcto" v-model="tarefa.dataVcto" />
+          </b-form-group>
+          <b-form-group id="input-group-dataPgto" label="Pagamento:" label-for="input-dataPgto">
+            <b-form-datepicker id="input-dataPgto" v-model="tarefa.dataPgto" />
+          </b-form-group>
+        </b-container>
       </b-form>
     </b-modal>
   </div>
@@ -46,25 +70,29 @@ export default {
   data() {
     return {
       tarefaAntesAbrirModal: {},
+      concluidoEstilo: ""
     };
   },
   methods: {
+    concluidoListener(){
+      if (this.tarefa.concluido === true){
+        this.concluidoEstilo = "tarefa-concluida"
+      }
+    },
     showModal() {
       this.$refs["rating-modal"].show();
 
       //guarda valores iniciais
       this.tarefaAntesAbrirModal.id = this.tarefa.id;
       this.tarefaAntesAbrirModal.descricao = this.tarefa.descricao;
-      this.tarefaAntesAbrirModal.pontos = this.tarefa.pontos;
+      this.tarefaAntesAbrirModal.pontosPrevistos = this.tarefa.pontosPrevistos;
+      this.tarefaAntesAbrirModal.pontosRealizados = this.tarefa.pontosRealizados;
     },
     hideModal1() {
       console.warn("modal ok");
       //debugger;
 
-      if (
-        this.tarefaAntesAbrirModal.descricao !== this.tarefa.descricao ||
-        this.tarefaAntesAbrirModal.pontos !== this.tarefa.pontos
-      ) {
+      if (this._tarefaAlterada()) {
         this.$http
           .post("https://localhost:5001/alterar", this.tarefa)
           .then(
@@ -79,6 +107,12 @@ export default {
           );
       } 
       this.$refs["rating-modal"].hide();
+    },
+    _tarefaAlterada(){
+      return this.tarefaAntesAbrirModal.descricao !== this.tarefa.descricao ||
+        this.tarefaAntesAbrirModal.pontosPrevistos !== this.tarefa.pontosPrevistos ||
+        this.tarefaAntesAbrirModal.pontosRealizados !== this.tarefa.pontosRealizados ||
+        this.tarefaAntesAbrirModal.concluido !== this.tarefa.concluido;
     },
     hideModal2() {
       console.warn("modal cancel");
@@ -105,6 +139,9 @@ export default {
 </script>
 
 <style scoped>
+.tarefa-concluida {
+  background-color: greenyellow !important;
+}
 .tarefa {
   border: 0px;
   border-color: black;
@@ -123,7 +160,7 @@ export default {
 
     display: flex;
     flex-direction: row;
-    background-color: #badaba;
+    background-color: #9ed6e8;
     border-radius: 3px;
     box-shadow: 0 1px 0 rgba(9,30,66,.25);
     cursor: pointer;
@@ -146,7 +183,7 @@ export default {
   clear: both;
   display: block;
   margin: 0 0 4px;
-  font-size: 14px;
+  font-size: 12px;
   overflow: hidden;
   text-decoration: none;
   /*word-wrap: break-word;*/
@@ -171,7 +208,7 @@ export default {
   vertical-align: top;
 }
 .badge-text {
-  font-size: 12px;
+  font-size: 10px;
   padding: 0 4px 0 2px;
   vertical-align: top;
   white-space: nowrap;

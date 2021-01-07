@@ -1,7 +1,7 @@
 <template>
   <div :style="{ display: 'grid' }" >
     <input
-      :style="{ 'min-width': '100px'}" 
+      class="input-descricao"
       type="text"
       ref="nova"
       v-show="mostrarInput()"
@@ -38,6 +38,7 @@ export default {
       this.btnStyle = 'nova-tarefa'
     },
     clicouFora(e) {
+      debugger;
       if (e.target.value){
         this.criarTarefa(e.target.value)
         this.ehVisivel = false
@@ -47,8 +48,11 @@ export default {
       }
     },
     confirmarNovaTarefa(e) {
-      if (e.key == "Enter") {
+      if (e.key === "Enter") {
+        debugger
         this.criarTarefa(e.target.value);
+      } else if (e.key === "Escape") {
+      this.ehVisivel = false;
       }
     },
     adicionarTarefa() {
@@ -62,7 +66,7 @@ export default {
       const novaTarefa = {
           descricao: descricao,
           data: this.dia,
-          pontos: 0
+          pontosPrevistos: 0
       }
       this.$http
         .put("https://localhost:5001/criar", novaTarefa)
@@ -85,6 +89,10 @@ export default {
 </script>
 
 <style scoped>
+.input-descricao {
+  min-width: 100px;
+  font-size: 12px;
+}
 .nova-tarefa {
   background-color: #eeeeee;
   border: 0px;
