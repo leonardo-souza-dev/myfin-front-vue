@@ -1,6 +1,6 @@
 <template>
   <li class="dia" :id="this.id" @dragover="onDragOver" @drop="onDrop">
-    
+    <button style="font-size: 9px; float: right; text-align: right;margin-top: -1.5px; width: 30%;" class="data-subtitulo">expandir</button>
     <h6 class="data-subtitulo">{{ this.id }}</h6>
     <ul class="tarefas">
       <li v-for="tarefa in this.dia.tarefas" :key="tarefa.id">

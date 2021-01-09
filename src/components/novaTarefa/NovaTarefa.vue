@@ -38,7 +38,7 @@ export default {
       this.btnStyle = 'nova-tarefa'
     },
     clicouFora(e) {
-      debugger;
+      //debugger;
       if (e.target.value){
         this.criarTarefa(e.target.value)
         this.ehVisivel = false
@@ -49,7 +49,6 @@ export default {
     },
     confirmarNovaTarefa(e) {
       if (e.key === "Enter") {
-        debugger
         this.criarTarefa(e.target.value);
       } else if (e.key === "Escape") {
       this.ehVisivel = false;

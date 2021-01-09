@@ -46,7 +46,7 @@
             </b-col>
           </b-row>
           <b-form-group id="input-group-concluido" label="Concluído:" label-for="input-concluido" >
-            <b-form-checkbox id="input-concluido" v-model="tarefa.concluido" @change="concluidoListener()" />
+            <b-form-checkbox id="input-concluido" v-model="tarefa.concluido"  />
           </b-form-group>
           <b-form-group id="input-group-valor" prepend="R$" label="Valor:" label-for="input-valor">
             <b-form-input id="input-valor" v-model="tarefa.valor" type="number" placeholder="0.00" ></b-form-input>
@@ -70,15 +70,26 @@ export default {
   data() {
     return {
       tarefaAntesAbrirModal: {},
-      concluidoEstilo: ""
+      //concluidoEstilo: "",
+      concluido: this.tarefa.concluido
     };
   },
-  methods: {
-    concluidoListener(){
+  computed: {
+    concluidoEstilo: function(){
+      console.log("mudou")
       if (this.tarefa.concluido === true){
-        this.concluidoEstilo = "tarefa-concluida"
+        return "tarefa-concluida"
+      } else {
+        return ""
       }
-    },
+    }
+  },
+  methods: {
+    // concluidoListener(){
+    //   if (this.tarefa.concluido === true){
+    //     this.concluidoEstilo = "tarefa-concluida"
+    //   }
+    // },
     showModal() {
       this.$refs["rating-modal"].show();
 
