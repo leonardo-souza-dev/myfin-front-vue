@@ -95,32 +95,29 @@ export default {
 .ano {
   list-style-type: none;
 }
-.cabecalho-dias-da-semana {
-  list-style-type: none;
-  margin-bottom: 0px;
+ul.cabecalho-dias-da-semana {
+  padding: 0;
 }
-.cabecalho-semana {
-  list-style-type: none;
-  display: inline-block;
+ul.cabecalho-semana {
+  width: 100%;
+  background-color: #555;
   overflow: auto;
-  overflow-y: hidden;
-  max-width: 100%;
-  margin: 1;
+  list-style-type: none;
+  padding-left: 0;
   white-space: nowrap;
+  display: inline-flex;
 }
 .cabecalho-dia {
-  background-color: #eeeeee;
-  vertical-align: top;
-  display: inline-block;
-  padding: 10px;
+  list-style-type: none;
+  float: left;
+  
   border: 1px;
   border-color: #dddddd;
   border-style: solid;
-  margin: 0px;
-  margin-top: 4px;
-  width: 180px;
+  width: 14.28%;
   min-width: 180px;
   overflow: scroll;
   white-space: nowrap;
+  background-color: #eeeeee;
 }
 </style>
