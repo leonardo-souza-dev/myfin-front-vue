@@ -92,10 +92,10 @@ export default {
 
 <style>
 .diaa {
-  background-color: #ff00ff;
+  background-color: #d9e6df;
   vertical-align: top;
   display: inline-block;
-  border: 1px;
+  border: 0px;
   border-color: #dddddd;
   border-style: solid;
   width: 14.28%;
@@ -104,6 +104,10 @@ export default {
   white-space: nowrap;
   list-style-type: none;
   float: left;
+  padding: 6px;
+  margin: 1px;
+  height: fit-content;
+  border-radius: 4px;
 }
 </style>
 

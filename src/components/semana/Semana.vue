@@ -114,7 +114,7 @@ export default {
   overflow: auto;  
   padding-left: 0;
   white-space: nowrap;
-  background-color: #555;
+  background-color: #ffffff;
   width: 100%;
   list-style-type: none;
 }
