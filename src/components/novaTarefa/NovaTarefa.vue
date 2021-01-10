@@ -93,7 +93,7 @@ export default {
   font-size: 12px;
 }
 .nova-tarefa {
-  background-color: #eeeeee;
+  background-color: #d9e6df;
   border: 0px;
   border-color: black;
   border-style: solid;
@@ -107,7 +107,7 @@ export default {
   height: 36px;
 }
 .nova-tarefa-mouseover {
-  background-color: #dddddd;
+  background-color: #c3d3cb;
   color: '#AAAAAA';
   border: 0px;
   border-color: black;
