@@ -1,5 +1,5 @@
 <template>
-  <li class="dia" :id="this.id" @dragover="onDragOver" @drop="onDrop">
+  <li class="diaa" :id="this.id" @dragover="onDragOver" @drop="onDrop">
     <button style="font-size: 9px; float: right; text-align: right;margin-top: -1.5px; width: 30%;" class="data-subtitulo">expandir</button>
     <h6 class="data-subtitulo">{{ this.id }}</h6>
     <ul class="tarefas">
@@ -90,27 +90,29 @@ export default {
 };
 </script>
 
+<style>
+.diaa {
+  background-color: #ff00ff;
+  vertical-align: top;
+  display: inline-block;
+  border: 1px;
+  border-color: #dddddd;
+  border-style: solid;
+  width: 14.28%;
+  min-width: 180px;
+  overflow: scroll;
+  white-space: nowrap;
+  list-style-type: none;
+  float: left;
+}
+</style>
+
 <style scoped>
 .visivel {
   display: block;
 }
 .escondido {
   display: none;
-}
-.dia {
-  background-color: #eeeeee;
-  vertical-align: top;
-  display: inline-block;
-  padding: 10px;
-  border: 1px;
-  border-color: #dddddd;
-  border-style: solid;
-  margin: 0px;
-  margin-top: 4px;
-  width: 180px;
-  min-width: 180px;
-  overflow: scroll;
-  white-space: nowrap;
 }
 .dia-titulo {
   width: 100%;

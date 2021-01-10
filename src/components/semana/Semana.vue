@@ -1,7 +1,6 @@
 <template>
   <div>
-    <p class="num-semana">{{ this.semana.num }}</p>
-    <ul class="semana" :id="this.semana.num">
+    <ul class="semanaa" :id="this.semana.num">
       <dia
         v-for="dia in this.semana.dias"
         :key="dia.id"
@@ -109,16 +108,20 @@ export default {
 };
 </script>
 
+<style>
+.semanaa {
+  display: flex;
+  overflow: auto;  
+  padding-left: 0;
+  white-space: nowrap;
+  background-color: #555;
+  width: 100%;
+  list-style-type: none;
+}
+</style>
+
 <style scoped>
 .num-semana{
   position: absolute;
-}
-.semana {
-  display: inline-block;
-  overflow: auto;
-  overflow-y: hidden;
-  max-width: 100%;
-  margin: 1;
-  white-space: nowrap;
 }
 </style>

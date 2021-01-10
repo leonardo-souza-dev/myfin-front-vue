@@ -2,18 +2,18 @@
   <div>
     <ul class="cabecalho-dias-da-semana">
       <li>        
-        <ul class="cabecalho-semana">
-          <li class="cabecalho-dia"><h4>dom</h4></li>
-          <li class="cabecalho-dia"><h4>seg</h4></li>
-          <li class="cabecalho-dia"><h4>ter</h4></li>
-          <li class="cabecalho-dia"><h4>qua</h4></li>
-          <li class="cabecalho-dia"><h4>qui</h4></li>
-          <li class="cabecalho-dia"><h4>sex</h4></li>
-          <li class="cabecalho-dia"><h4>sab</h4></li>
+        <ul class="semanaa">
+          <li class="diaa"><h4>dom</h4></li>
+          <li class="diaa"><h4>seg</h4></li>
+          <li class="diaa"><h4>ter</h4></li>
+          <li class="diaa"><h4>qua</h4></li>
+          <li class="diaa"><h4>qui</h4></li>
+          <li class="diaa"><h4>sex</h4></li>
+          <li class="diaa"><h4>sab</h4></li>
         </ul>
       </li>
     </ul>
-    <ul class="ano">
+    <ul class="cabecalho-dias-da-semana">
       <li v-for="(semana, indice) in this.semanas" :key="semana.id">
         <semana
           :semana="semana"
@@ -92,32 +92,17 @@ export default {
 .num-semana{
   position: absolute;
 }
-.ano {
-  list-style-type: none;
-}
 ul.cabecalho-dias-da-semana {
   padding: 0;
+  list-style-type: none;
 }
 ul.cabecalho-semana {
-  width: 100%;
-  background-color: #555;
+  display: inline-flex;
   overflow: auto;
-  list-style-type: none;
   padding-left: 0;
   white-space: nowrap;
-  display: inline-flex;
-}
-.cabecalho-dia {
+  background-color: #555;  
+  width: 100%;
   list-style-type: none;
-  float: left;
-  
-  border: 1px;
-  border-color: #dddddd;
-  border-style: solid;
-  width: 14.28%;
-  min-width: 180px;
-  overflow: scroll;
-  white-space: nowrap;
-  background-color: #eeeeee;
 }
 </style>
