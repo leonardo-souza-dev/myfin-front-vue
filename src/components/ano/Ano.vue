@@ -3,13 +3,13 @@
     <ul class="cabecalho-dias-da-semana">
       <li>        
         <ul class="semanaa">
-          <li class="diaa"><h4>dom</h4></li>
+          <li class="diaa fdss"><h4>dom</h4></li>
           <li class="diaa"><h4>seg</h4></li>
           <li class="diaa"><h4>ter</h4></li>
           <li class="diaa"><h4>qua</h4></li>
           <li class="diaa"><h4>qui</h4></li>
           <li class="diaa"><h4>sex</h4></li>
-          <li class="diaa"><h4>sab</h4></li>
+          <li class="diaa fdss"><h4>sab</h4></li>
         </ul>
       </li>
     </ul>

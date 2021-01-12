@@ -62,10 +62,15 @@ export default {
       this.$refs.nova.value = ''
     },
     criarTarefa(descricao){
+      let pontosPrevistos = 0;
+      if (descricao.indexOf(';') > 0 && !isNaN(parseInt(descricao.split(';')[1])) ){
+        pontosPrevistos = descricao.split(';')[1]
+        descricao = descricao.split(';')[0]
+      }
       const novaTarefa = {
           descricao: descricao,
           data: this.dia,
-          pontosPrevistos: 0
+          pontosPrevistos: pontosPrevistos
       }
       this.$http
         .put("https://localhost:5001/criar", novaTarefa)

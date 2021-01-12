@@ -1,5 +1,5 @@
 <template>
-  <li class="diaa" :id="this.id" @dragover="onDragOver" @drop="onDrop">
+  <li class="diaa" :class="estiloFds" :id="this.id" @dragover="onDragOver" @drop="onDrop">
     <button style="font-size: 9px; float: right; text-align: right;margin-top: -1.5px; width: 30%;" class="data-subtitulo">expandir</button>
     <h6 class="data-subtitulo">{{ this.id }}</h6>
     <ul class="tarefas">
@@ -23,10 +23,13 @@ export default {
     novaTarefa: NovaTarefa,
   },
   data() {
-    return {};
+    return {
+      estiloFds: ""
+    };
   },
   created() {
     this.dia.retiraTarefa = this.retiraTarefa;
+    this.estiloFds = this.dia.diaDaSemana === 'dom' || this.dia.diaDaSemana === 'sab' ? 'fdss' : ''
   },
   methods: {
     retiraTarefa(id) {
@@ -91,6 +94,9 @@ export default {
 </script>
 
 <style>
+.fdss {
+  background-color: #eeeeee !important;
+}
 .diaa {
   background-color: #d9e6df;
   vertical-align: top;
