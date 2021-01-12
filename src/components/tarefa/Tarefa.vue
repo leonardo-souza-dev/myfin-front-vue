@@ -6,7 +6,7 @@
           {{ this.tarefa.descricao }}
         </span>
         <div class="badges">
-          <div class="badge-text">Pontos previstos: {{ this.tarefa.pontosPrevistos }}</div>
+          <div class="badge-text">Pontos: {{ this.tarefa.pontosRealizados }}de{{ this.tarefa.pontosPrevistos }}</div>
         </div>
       </div>
     </a>
@@ -35,13 +35,13 @@
           </b-row>
           <b-row>
             <b-col>
-              <b-form-group id="input-group-pontosPrevistos" label="Pontos previstos:" label-for="input-pontosPrevistos">
-                <b-form-input id="input-pontosPrevistos" v-model="tarefa.pontosPrevistos" type="number" placeholder="Pontos previstos" />
+              <b-form-group id="input-group-pontosRealizados" label="Pontos realizados:" label-for="input-pontosRealizados">
+                <b-form-input id="input-pontosRealizados" v-model="tarefa.pontosRealizados" type="number" />
               </b-form-group>
             </b-col>
             <b-col>
-              <b-form-group id="input-group-pontosRealizados" label="Pontos realizados:" label-for="input-pontosRealizados">
-                <b-form-input id="input-pontosRealizados" v-model="tarefa.pontosRealizados" type="number" />
+              <b-form-group id="input-group-pontosPrevistos" label="Pontos previstos:" label-for="input-pontosPrevistos">
+                <b-form-input id="input-pontosPrevistos" v-model="tarefa.pontosPrevistos" type="number" placeholder="Pontos previstos" />
               </b-form-group>
             </b-col>
           </b-row>
@@ -163,26 +163,23 @@ export default {
   font-size: 10px;
   padding: 1px;
   width: 100%;
-
   min-height: 56px;
-
   padding-left: 8px;
   text-align: left;
-
-    display: flex;
-    flex-direction: row;
-    background-color: #9ed6e8;
-    border-radius: 3px;
-    box-shadow: 0 1px 0 rgba(9,30,66,.25);
-    cursor: pointer;
-    margin-bottom: 8px;
-    max-width: 300px;
-    position: relative;
-    text-decoration: none;
-    z-index: 0;
-    color: #172b4d;
-    white-space: normal;
-    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Noto Sans,Ubuntu,Droid Sans,Helvetica Neue,sans-serif;
+  display: flex;
+  flex-direction: row;
+  background-color: #9ed6e8;
+  border-radius: 3px;
+  box-shadow: 0 1px 0 rgba(9,30,66,.25);
+  cursor: pointer;
+  margin-bottom: 8px;
+  max-width: 300px;
+  position: relative;
+  text-decoration: none;
+  z-index: 0;
+  color: #172b4d;
+  white-space: normal;
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Noto Sans,Ubuntu,Droid Sans,Helvetica Neue,sans-serif;
 }
 .tarefa-detalhe {
   overflow: hidden;
@@ -194,10 +191,10 @@ export default {
   clear: both;
   display: block;
   margin: 0 0 4px;
-  font-size: 12px;
+  font-size: 10px;
   overflow: hidden;
   text-decoration: none;
-  /*word-wrap: break-word;*/
+  word-wrap: break-word;
   color: #172b4d;
 }
 .badges {
@@ -223,5 +220,6 @@ export default {
   padding: 0 4px 0 2px;
   vertical-align: top;
   white-space: nowrap;
+  opacity: 80%;;
 }
 </style>
