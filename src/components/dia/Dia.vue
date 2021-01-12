@@ -1,6 +1,8 @@
 <template>
   <li class="diaa" :class="estiloFds" :id="this.id" @dragover="onDragOver" @drop="onDrop">
-    <button style="font-size: 9px; float: right; text-align: right;margin-top: -1.5px; width: 30%;" class="data-subtitulo">expandir</button>
+    <!-- <button 
+      style="font-size: 9px; float: right; text-align: right;margin-top: -1.5px; width: 30%;" 
+      class="data-subtitulo">expandir</button> -->
     <h6 class="data-subtitulo">{{ this.id }}</h6>
     <ul class="tarefas">
       <li v-for="tarefa in this.dia.tarefas" :key="tarefa.id">
@@ -8,6 +10,12 @@
       </li>
     </ul>
     <nova-tarefa :dia="this.id" />
+    <div style="text-align: left; font-size: 10px; float: left">
+      Saldo do dia:
+    </div>
+    <div style="text-align: right; font-size: 10px">
+      {{ this.obterSaldo()   }}
+    </div>
   </li>
 </template>
 
@@ -89,6 +97,17 @@ export default {
     hide() {
       this.$modal.hide("my-first-modal");
     },
+    obterSaldo(){
+      let saldo = 0
+      const tarefas = this.dia.tarefas
+      for (var i = 0; i < tarefas.length; i++) {
+        const tarefa = tarefas[i]
+        if (tarefa.valor && tarefa.valor > 0){
+          saldo += Number(tarefa.valor)
+        }
+      }
+      return saldo
+    }
   },
 };
 </script>

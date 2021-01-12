@@ -8,6 +8,9 @@
         <div class="badges">
           <div class="badge-text">Pontos: {{ this.tarefa.pontosRealizados }}de{{ this.tarefa.pontosPrevistos }}</div>
         </div>
+        <div v-if="ehTransacao" class="badges">
+          <div class="badge-text valor">{{ this.tarefa.valor }}</div>
+        </div>
       </div>
     </a>
 
@@ -48,9 +51,16 @@
           <b-form-group id="input-group-concluido" label="Concluído:" label-for="input-concluido" >
             <b-form-checkbox id="input-concluido" v-model="tarefa.concluido"  />
           </b-form-group>
-          <b-form-group id="input-group-valor" prepend="R$" label="Valor:" label-for="input-valor">
-            <b-form-input id="input-valor" v-model="tarefa.valor" type="number" placeholder="0.00" ></b-form-input>
-          </b-form-group>
+          <b-row>
+            <b-col>
+              <b-form-group id="input-group-valor" prepend="R$" label="Valor:" label-for="input-valor">
+                <b-form-input id="input-valor" v-model="tarefa.valor" type="number" placeholder="0.00" ></b-form-input>
+              </b-form-group>
+              <b-form-group id="input-group-conta" label="Conta:" label-for="input-conta">
+                <b-form-input id="input-conta" v-model="tarefa.conta" type="text" placeholder="conta" ></b-form-input>
+              </b-form-group>
+            </b-col>
+          </b-row>
           <b-form-group id="input-group-dataVcto" label="Vencimento:" label-for="input-dataVcto">
             <b-form-datepicker id="input-dataVcto" v-model="tarefa.dataVcto" />
           </b-form-group>
@@ -70,26 +80,25 @@ export default {
   data() {
     return {
       tarefaAntesAbrirModal: {},
-      //concluidoEstilo: "",
       concluido: this.tarefa.concluido
     };
   },
   computed: {
     concluidoEstilo: function(){
-      console.log("mudou")
       if (this.tarefa.concluido === true){
         return "tarefa-concluida"
       } else {
         return ""
       }
+    },
+    ehTransacao: function(){
+      if (this.tarefa.valor && this.tarefa.valor > 0) {
+        return true
+      }
+      return false
     }
   },
   methods: {
-    // concluidoListener(){
-    //   if (this.tarefa.concluido === true){
-    //     this.concluidoEstilo = "tarefa-concluida"
-    //   }
-    // },
     showModal() {
       this.$refs["rating-modal"].show();
 
@@ -102,7 +111,6 @@ export default {
     hideModal1() {
       console.warn("modal ok");
       //debugger;
-
       if (this._tarefaAlterada()) {
         this.$http
           .post("https://localhost:5001/alterar", this.tarefa)
@@ -186,6 +194,7 @@ export default {
   padding: 6px 4px 2px;
   position: relative;
   z-index: 10;
+  width: 100%;
 }
 .tarefa-titulo{
   clear: both;
@@ -201,6 +210,7 @@ export default {
   float: left;
   max-width: 100%;
   margin-left: -2px;
+  display: contents;
 }
 .badge {
   color: #5e6c84;
@@ -221,5 +231,8 @@ export default {
   vertical-align: top;
   white-space: nowrap;
   opacity: 80%;;
+}
+.valor {
+  text-align: right;
 }
 </style>
