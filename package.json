@@ -15,7 +15,8 @@
     "vue": "^2.6.12",
     "vue-datas-br": "^1.2.0",
     "vue-resource": "^1.5.1",
-    "vue-router": "^2.8.1"
+    "vue-router": "^2.8.1",
+    "vue-web-storage": "^6.1.0"
   },
   "browserslist": [
     "> 1%",

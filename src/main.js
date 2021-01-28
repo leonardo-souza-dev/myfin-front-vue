@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import VueResource from 'vue-resource'
 import { BootstrapVue } from 'bootstrap-vue'
 import VueDatasBr from 'vue-datas-br'
+import Storage from 'vue-web-storage'
 
 import { routes } from './routes'
 
@@ -14,6 +15,7 @@ Vue.use(VueRouter)
 Vue.use(VueResource)
 Vue.use(BootstrapVue)
 Vue.use(VueDatasBr)
+//Vue.use(Storage)
 
 const router = new VueRouter({
   routes,

@@ -1,42 +1,50 @@
 <template>
   <div>
-    <ul class="cabecalho-dias-da-semana">
-      <li>        
-        <ul class="semanaa">
-          <li class="diaa fdss"><h4>dom</h4></li>
-          <li class="diaa"><h4>seg</h4></li>
-          <li class="diaa"><h4>ter</h4></li>
-          <li class="diaa"><h4>qua</h4></li>
-          <li class="diaa"><h4>qui</h4></li>
-          <li class="diaa"><h4>sex</h4></li>
-          <li class="diaa fdss"><h4>sab</h4></li>
-        </ul>
-      </li>
-    </ul>
-    <ul class="cabecalho-dias-da-semana">
-      <li v-for="(semana, indice) in this.semanas" :key="semana.id">
-        <semana
-          :semana="semana"
-          :dataInicial="semana.dias[0].data"
-          :indice="indice"
-          :removerTarefa="avisoRemoverTarefa"
-        />
-      </li>
-    </ul>
+    <div class="controles">
+      <controles />
+    </div>
+    <div class="ano">
+      <ul class="cabecalho-dias-da-semana">
+        <li>        
+          <ul class="semanaa">
+            <li class="diaa fdss"><h4>dom</h4></li>
+            <li class="diaa"><h4>seg</h4></li>
+            <li class="diaa"><h4>ter</h4></li>
+            <li class="diaa"><h4>qua</h4></li>
+            <li class="diaa"><h4>qui</h4></li>
+            <li class="diaa"><h4>sex</h4></li>
+            <li class="diaa fdss"><h4>sab</h4></li>
+          </ul>
+        </li>
+      </ul>
+      <ul class="cabecalho-dias-da-semana">
+        <li v-for="(semana, indice) in this.semanas" :key="semana.id">
+          <semana
+            :semana="semana"
+            :dataInicial="semana.dias[0].data"
+            :indice="indice"
+            :removerTarefa="avisoRemoverTarefa"
+          />
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
 <script>
-import Semana from "../semana/Semana.vue";
+import Semana from "../semana/Semana.vue"
+import Controles from "../controles/Controles.vue"
 
 export default {
   name: "ano",
   components: {
     semana: Semana,
+    controles: Controles
   },
   data() {
     return {
       dataInicial: this.obterUltimoDomingo(),
+      //dataInicial: new Date('2021-01-17 00:00:00.000'),
       semanas: [],
       qtdSemanas: 5,
     };
@@ -80,7 +88,22 @@ export default {
       .then((res) => res.json())
       .then(
         (dados) => {
-          this.semanas = dados;
+          this.semanas = dados
+        },
+        (err) => console.log(err)
+      );
+
+    this.$http
+      .get(
+        `https://localhost:5001/obter-contas`
+      )
+      .then((res) => res.json())
+      .then(
+        (dados) => {
+          this.contas = dados.map(function(item){
+            return { value: item.id, text: item.descricao }
+          });
+          localStorage.setItem("contas", JSON.stringify(this.contas));
         },
         (err) => console.log(err)
       );
@@ -89,6 +112,16 @@ export default {
 </script>
 
 <style scoped>
+.ano {
+  float: left;
+  width: 90%;
+  /*min-width: 700px;*/
+}
+.controles {
+  float: left;
+  width: 10%;
+  /*min-width: 100px;*/
+}
 .num-semana{
   position: absolute;
 }

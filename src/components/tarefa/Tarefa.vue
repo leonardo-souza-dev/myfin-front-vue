@@ -5,10 +5,13 @@
         <span class="tarefa-titulo">
           {{ this.tarefa.descricao }}
         </span>
+        <span class="tarefa-tipo">
+          {{ this.tarefa.tipo }}
+        </span>
         <div class="badges">
           <div class="badge-text">Pontos: {{ this.tarefa.pontosRealizados }}de{{ this.tarefa.pontosPrevistos }}</div>
         </div>
-        <div v-if="ehTransacao" class="badges">
+        <div v-if="this.tarefa.tipo == 2" class="badges">
           <div class="badge-text valor">{{ this.tarefa.valor }}</div>
         </div>
       </div>
@@ -57,7 +60,8 @@
                 <b-form-input id="input-valor" v-model="tarefa.valor" type="number" placeholder="0.00" ></b-form-input>
               </b-form-group>
               <b-form-group id="input-group-conta" label="Conta:" label-for="input-conta">
-                <b-form-input id="input-conta" v-model="tarefa.conta" type="text" placeholder="conta" ></b-form-input>
+                <b-form-select v-model="contaSelecionada" :options="contas"></b-form-select>
+                <!-- <b-form-input id="input-conta" v-model="tarefa.conta.descricao" type="text" placeholder="conta" ></b-form-input> -->
               </b-form-group>
             </b-col>
           </b-row>
@@ -79,9 +83,26 @@ export default {
   props: ["tarefa", "indiceSemana"],
   data() {
     return {
+      contaSelecionada: null,
       tarefaAntesAbrirModal: {},
-      concluido: this.tarefa.concluido
+      concluido: this.tarefa.concluido,
+      contas: []
     };
+  },
+  created() {
+    this.contas = JSON.parse(localStorage.getItem("contas"))
+    this.contas.push({ text: 'Selecione', value: 0})
+    
+    if (this.tarefa.conta && this.tarefa.conta.id) {
+      debugger
+      for(let i = 0; i < this.contas.length; i++){
+        if (this.contas[i].value == this.tarefa.conta.id){
+          this.contaSelecionada = this.contas[i].value
+        }
+      }
+    } else if (!this.tarefa.conta){
+      this.contaSelecionada = 0
+    }
   },
   computed: {
     concluidoEstilo: function(){
@@ -103,10 +124,11 @@ export default {
       this.$refs["rating-modal"].show();
 
       //guarda valores iniciais
-      this.tarefaAntesAbrirModal.id = this.tarefa.id;
-      this.tarefaAntesAbrirModal.descricao = this.tarefa.descricao;
-      this.tarefaAntesAbrirModal.pontosPrevistos = this.tarefa.pontosPrevistos;
-      this.tarefaAntesAbrirModal.pontosRealizados = this.tarefa.pontosRealizados;
+      this.tarefaAntesAbrirModal.id = this.tarefa.id
+      this.tarefaAntesAbrirModal.descricao = this.tarefa.descricao
+      this.tarefaAntesAbrirModal.pontosPrevistos = this.tarefa.pontosPrevistos
+      this.tarefaAntesAbrirModal.pontosRealizados = this.tarefa.pontosRealizados
+      this.tarefaAntesAbrirModal.conta = this.tarefa.conta
     },
     hideModal1() {
       console.warn("modal ok");
@@ -131,7 +153,8 @@ export default {
       return this.tarefaAntesAbrirModal.descricao !== this.tarefa.descricao ||
         this.tarefaAntesAbrirModal.pontosPrevistos !== this.tarefa.pontosPrevistos ||
         this.tarefaAntesAbrirModal.pontosRealizados !== this.tarefa.pontosRealizados ||
-        this.tarefaAntesAbrirModal.concluido !== this.tarefa.concluido;
+        this.tarefaAntesAbrirModal.concluido !== this.tarefa.concluido ||
+        this.tarefaAntesAbrirModal.conta !== this.tarefa.conta;
     },
     hideModal2() {
       console.warn("modal cancel");
@@ -146,9 +169,6 @@ export default {
       this.$refs["rating-modal"].hide();
     },
     onDragStart: function (e) {
-      //console.log('onDragStart iniciado')
-      //console.log(this.tarefa)
-
       e.dataTransfer.dropEffect = "move";
       this.tarefa.semanaAntiga = this.indiceSemana
       e.dataTransfer.setData("text/plain", JSON.stringify(this.tarefa));
