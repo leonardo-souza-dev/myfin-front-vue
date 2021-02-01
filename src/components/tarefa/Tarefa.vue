@@ -60,7 +60,7 @@
                 <b-form-input id="input-valor" v-model="tarefa.valor" type="number" placeholder="0.00" ></b-form-input>
               </b-form-group>
               <b-form-group id="input-group-conta" label="Conta:" label-for="input-conta">
-                <b-form-select v-model="this.tarefa.conta" :options="contas"></b-form-select>
+                <b-form-select v-model="tarefa.conta" :options="contas"></b-form-select>
               </b-form-group>
             </b-col>
           </b-row>
@@ -99,17 +99,6 @@ export default {
         }, 
         text: contasLocalStorage[i].text })
     }
-
-    // if (this.tarefa.conta && this.tarefa.conta.id) {
-    //   debugger
-    //   for(let j = 0; j < this.contas.length; j++){
-    //     if (this.contas[j].value == this.tarefa.conta.id){
-    //       this.contaSelecionada = this.contas[j].value
-    //     }
-    //   }
-    // } else if (!this.tarefa.conta){
-    //   this.contaSelecionada = 0
-    // }
   },
   computed: {
     concluidoEstilo: function(){
@@ -135,11 +124,10 @@ export default {
       this.tarefaAntesAbrirModal.descricao = this.tarefa.descricao
       this.tarefaAntesAbrirModal.pontosPrevistos = this.tarefa.pontosPrevistos
       this.tarefaAntesAbrirModal.pontosRealizados = this.tarefa.pontosRealizados
+      //if (this.tarefaAntesAbrirModal.conta && this.tarefa.conta)
       this.tarefaAntesAbrirModal.conta = this.tarefa.conta
     },
     hideModal1() {
-      console.warn("modal ok");
-      debugger;
       if (this._tarefaAlterada()) {
         this.$http
           .post("https://localhost:5001/alterar", this.tarefa)
@@ -157,12 +145,11 @@ export default {
       this.$refs["rating-modal"].hide();
     },
     _tarefaAlterada(){
-      debugger;
       return this.tarefaAntesAbrirModal.descricao !== this.tarefa.descricao ||
         this.tarefaAntesAbrirModal.pontosPrevistos !== this.tarefa.pontosPrevistos ||
         this.tarefaAntesAbrirModal.pontosRealizados !== this.tarefa.pontosRealizados ||
-        this.tarefaAntesAbrirModal.concluido !== this.tarefa.concluido ||
-        this.tarefaAntesAbrirModal.conta !== this.tarefa.conta;
+        this.tarefaAntesAbrirModal.concluido !== this.tarefa.concluido 
+        // || this.tarefaAntesAbrirModal.conta !== this.tarefa.conta;
     },
     hideModal2() {
       console.warn("modal cancel");
