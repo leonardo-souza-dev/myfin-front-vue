@@ -60,8 +60,7 @@
                 <b-form-input id="input-valor" v-model="tarefa.valor" type="number" placeholder="0.00" ></b-form-input>
               </b-form-group>
               <b-form-group id="input-group-conta" label="Conta:" label-for="input-conta">
-                <b-form-select v-model="contaSelecionada" :options="contas"></b-form-select>
-                <!-- <b-form-input id="input-conta" v-model="tarefa.conta.descricao" type="text" placeholder="conta" ></b-form-input> -->
+                <b-form-select v-model="this.tarefa.conta" :options="contas"></b-form-select>
               </b-form-group>
             </b-col>
           </b-row>
@@ -86,23 +85,31 @@ export default {
       contaSelecionada: null,
       tarefaAntesAbrirModal: {},
       concluido: this.tarefa.concluido,
-      contas: []
+      contas: [{ text: 'Selecione', value: null }]
     };
   },
   created() {
-    this.contas = JSON.parse(localStorage.getItem("contas"))
-    this.contas.push({ text: 'Selecione', value: 0})
-    
-    if (this.tarefa.conta && this.tarefa.conta.id) {
-      debugger
-      for(let i = 0; i < this.contas.length; i++){
-        if (this.contas[i].value == this.tarefa.conta.id){
-          this.contaSelecionada = this.contas[i].value
-        }
-      }
-    } else if (!this.tarefa.conta){
-      this.contaSelecionada = 0
+    const contasLocalStorage = JSON.parse(localStorage.getItem("contas"))
+
+    for(let i = 0; i < contasLocalStorage.length; i++){
+      this.contas.push({ 
+        value: 
+        {
+          id: contasLocalStorage[i].value
+        }, 
+        text: contasLocalStorage[i].text })
     }
+
+    // if (this.tarefa.conta && this.tarefa.conta.id) {
+    //   debugger
+    //   for(let j = 0; j < this.contas.length; j++){
+    //     if (this.contas[j].value == this.tarefa.conta.id){
+    //       this.contaSelecionada = this.contas[j].value
+    //     }
+    //   }
+    // } else if (!this.tarefa.conta){
+    //   this.contaSelecionada = 0
+    // }
   },
   computed: {
     concluidoEstilo: function(){
@@ -132,7 +139,7 @@ export default {
     },
     hideModal1() {
       console.warn("modal ok");
-      //debugger;
+      debugger;
       if (this._tarefaAlterada()) {
         this.$http
           .post("https://localhost:5001/alterar", this.tarefa)
@@ -150,6 +157,7 @@ export default {
       this.$refs["rating-modal"].hide();
     },
     _tarefaAlterada(){
+      debugger;
       return this.tarefaAntesAbrirModal.descricao !== this.tarefa.descricao ||
         this.tarefaAntesAbrirModal.pontosPrevistos !== this.tarefa.pontosPrevistos ||
         this.tarefaAntesAbrirModal.pontosRealizados !== this.tarefa.pontosRealizados ||
