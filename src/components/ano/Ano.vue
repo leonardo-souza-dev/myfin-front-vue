@@ -46,7 +46,7 @@ export default {
       dataInicial: this.obterUltimoDomingo(),
       //dataInicial: new Date('2021-01-24 00:00:00.000'),
       semanas: [],
-      qtdSemanas: 5,
+      qtdSemanas: 6,
     };
   },
   methods: {

@@ -79,7 +79,7 @@
 <script>
 export default {
   name: "tarefa",
-  props: ["tarefa", "indiceSemana"],
+  props: [ "tarefa", "indiceSemana" ],
   data() {
     return {
       contaSelecionada: null,
@@ -160,7 +160,6 @@ export default {
       this.$refs["rating-modal"].hide();
     },
     hideModalEsc() {
-      console.warn("modal fechado");
       this.$refs["rating-modal"].hide();
     },
     onDragStart: function (e) {
@@ -185,8 +184,6 @@ export default {
   text-overflow: ellipsis;
   font-size: 10px;
   padding: 1px;
-  width: 100%;
-  min-height: 56px;
   padding-left: 8px;
   text-align: left;
   display: flex;
@@ -197,6 +194,8 @@ export default {
   cursor: pointer;
   margin-bottom: 8px;
   max-width: 300px;
+  width: 100%;
+  min-height: 84px;
   position: relative;
   text-decoration: none;
   z-index: 0;

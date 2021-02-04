@@ -125,6 +125,7 @@ export default {
   border-style: solid;
   width: 14.28%;
   min-width: 180px;
+  max-height: 350px;
   overflow: scroll;
   white-space: nowrap;
   list-style-type: none;
