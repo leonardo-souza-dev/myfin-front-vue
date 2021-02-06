@@ -41,15 +41,15 @@ export default {
       dataInicial: this.obterUltimoDomingo(),
       //dataInicial: new Date('2021-01-24 00:00:00.000'),
       semanas: [ ],
-      qtdSemanas: 6,
+      qtdSemanas: 5,
       tiposMostrar: "todos"
     };
   },
   methods: {
     mostrarEsconderTipo(tipo) {
-      console.log('ano')
+      console.log("ano")
       console.log(tipo)
-      console.log('')
+      console.log("")
       this.tiposMostrar = tipo
     },
     avisoRemoverTarefa() {},
@@ -96,14 +96,12 @@ export default {
       );
 
     this.$http
-      .get(
-        `https://localhost:5001/obter-contas`
-      )
+      .get(`https://localhost:5001/obter-contas`)
       .then((res) => res.json())
       .then(
         (dados) => {
-          this.contas = dados.map(function(item){
-            return { value: item.id, text: item.nome }
+          this.contas = dados.map(function (item) {
+            return { value: item.id, text: item.nome };
           });
           localStorage.setItem("contas", JSON.stringify(this.contas));
         },

@@ -1,8 +1,5 @@
 <template>
   <li class="diaa" :class="estiloFds" :id="this.id" @dragover="onDragOver" @drop="onDrop">
-    <!-- <button 
-      style="font-size: 9px; float: right; text-align: right;margin-top: -1.5px; width: 30%;" 
-      class="data-subtitulo">expandir</button> -->
     <h6 class="data-subtitulo">{{ this.id }}</h6>
     <ul class="tarefas">
       <li v-for="tarefa in this.dia.tarefas" :key="tarefa.id">
@@ -61,11 +58,8 @@ export default {
     onDrop: function (e) {
       e.preventDefault();
       e.stopPropagation();
-      //debugger;
+      
       let tarefaJson = JSON.parse(e.dataTransfer.getData("text/plain"));
-
-      //console.warn('tarefa que está sendo largada (por enquanto) é:')
-      //console.warn(tarefaJson)
 
       const dataAntiga = tarefaJson.data;
       const novaData = this.$converterDeYYYY_MM_DDParaDataISOShort(this.id);
@@ -100,6 +94,9 @@ export default {
     obterSaldo(){
       let saldo = 0
       const tarefas = this.dia.tarefas
+      if (typeof tarefas === 'undefined') {
+        return 0;
+      }
       for (var i = 0; i < tarefas.length; i++) {
         const tarefa = tarefas[i]
         if (tarefa.valor && tarefa.valor > 0){

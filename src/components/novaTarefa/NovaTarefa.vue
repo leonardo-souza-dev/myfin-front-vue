@@ -22,10 +22,10 @@ export default {
   name: 'nova-tarefa',
   props: ['dia'],
   data() {
-      return {
-        btnStyle: 'nova-tarefa',
-        ehVisivel: false
-      }
+    return {
+      btnStyle: 'nova-tarefa',
+      ehVisivel: false
+    }
   },
   methods:{
     mostrarInput(){

@@ -1,17 +1,15 @@
 <template>
-  <div>
-    <div class="semanaa" :id="this.semana.num">
-      <dia
-        v-for="dia in this.semana.dias"
-        :key="dia.id"
-        :diaDaSemana="dia.diaDaSemana"
-        v-on:removerTarefaListener="removerTarefa"
-        :id="dia.data.substring(0, 10)"
-        :dia="dia"
-        :indiceSemana="indice"
-        :mostrarEsconderTipo="mostrarTipo"
-      />
-    </div>
+  <div class="semanaa" :id="this.semana.num">
+    <dia
+      v-for="dia in this.semana.dias"
+      :key="dia.id"
+      :diaDaSemana="dia.diaDaSemana"
+      v-on:removerTarefaListener="removerTarefa"
+      :id="processarData(dia.data)"
+      :dia="dia"
+      :indiceSemana="indice"
+      :mostrarEsconderTipo="mostrarTipo"
+    />
   </div>
 </template>
 
@@ -26,13 +24,18 @@ export default {
   name: "semana",
   data() {
     return {
-      dias: [],
+      dias: [], 
     };
   },
   created(){
     this.semana.tirarTarefa = this.tirarTarefa
   },
   methods: {
+    processarData(data) {
+      if (typeof data !== 'undefined') {
+        return data.substring(0, 10)
+      }
+    },
     tirarTarefa(id, dataAntiga, indiceSemanaAntiga){
       for(let i = 0; i < this.semana.dias.length; i++) {
         const dia = this.semana.dias[i];
@@ -110,7 +113,7 @@ export default {
 <style>
 .semanaa {
   display: flex;
-  overflow: auto;  
+  overflow: auto;
   padding-left: 0;
   white-space: nowrap;
   background-color: #ffffff;
