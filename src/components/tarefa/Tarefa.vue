@@ -1,6 +1,6 @@
 <template>
-  <div style="padding-bottom: 2px" draggable="true" @dragstart="onDragStart" :id="this.tarefa.id" v-if="mostrarEsconder">
-    <a @click="showModal()" class="tarefa" :class="concluidoEstilo" >
+  <li style="padding-bottom: 2px" class="tarefa" :class="concluidoEstilo" draggable="true" @dragstart="onDragStart" :id="this.tarefa.id" v-if="mostrarEsconder">
+    <a @click="showModal()"  >
       <div class="tarefa-detalhe">
         <span class="tarefa-titulo">
           {{ this.tarefa.descricao }}
@@ -73,7 +73,7 @@
         </b-container>
       </b-form>
     </b-modal>
-  </div>
+  </li>
 </template>
 
 <script>

@@ -2,9 +2,7 @@
   <b-col class="diaa" :class="estiloFds" :id="this.id" @dragover="onDragOver" @drop="onDrop">
     <h6 class="data-subtitulo">{{ this.id }}</h6>
     <ul class="tarefas">
-      <li v-for="tarefa in this.dia.tarefas" :key="tarefa.id">
-        <tarefa :tarefa="tarefa" :indiceSemana="indiceSemana" :mostrarEsconderTipo="mostrarEsconderTipo"/>
-      </li>
+      <tarefa v-for="tarefa in this.dia.tarefas" :key="tarefa.id" :tarefa="tarefa" :indiceSemana="indiceSemana" :mostrarEsconderTipo="mostrarEsconderTipo"/>
     </ul>
     <nova-tarefa :dia="this.id" />
     <div style="text-align: left; font-size: 10px; float: left">
