@@ -1,16 +1,16 @@
 <template>
-  <div draggable="true" @dragstart="onDragStart" :id="this.tarefa.id" v-if="mostrarEsconder">
+  <div style="padding-bottom: 2px" draggable="true" @dragstart="onDragStart" :id="this.tarefa.id" v-if="mostrarEsconder">
     <a @click="showModal()" class="tarefa" :class="concluidoEstilo" >
       <div class="tarefa-detalhe">
         <span class="tarefa-titulo">
           {{ this.tarefa.descricao }}
         </span>
-        <span class="tarefa-tipo">
+        <!-- <span class="tarefa-tipo">
           {{ this.tarefa.tipo }}
-        </span>
-        <div class="badges">
+        </span> -->
+        <!-- <div class="badges">
           <div class="badge-text">Pontos: {{ this.tarefa.pontosRealizados }}de{{ this.tarefa.pontosPrevistos }}</div>
-        </div>
+        </div> -->
         <div v-if="this.tarefa.tipo == 'Transacao'" class="badges">
           <div class="badge-text valor">R$ {{ this.tarefa.valor }}</div>
         </div>
@@ -205,7 +205,7 @@ export default {
   display: flex;
   flex-direction: row;
   background-color: #9ed6e8;
-  border-radius: 3px;
+  border-radius: 5px;
   box-shadow: 0 1px 0 rgba(9,30,66,.25);
   cursor: pointer;
 
@@ -236,7 +236,7 @@ export default {
   clear: both;
   display: block;
   margin: 0 0 4px;
-  font-size: 10px;
+  font-size: 12px;
   overflow: hidden;
   text-decoration: none;
   word-wrap: break-word;

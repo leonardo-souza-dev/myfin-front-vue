@@ -146,9 +146,10 @@ export default {
 }
 .data-subtitulo {
   width: 100%;
-  padding: 0px;
+  padding: 6px;
+  text-align: center;
   margin-bottom: 8px;
-  font-size: 9px;
+  font-size: 13px;
 }
 .tarefas {
   list-style-type: none;
