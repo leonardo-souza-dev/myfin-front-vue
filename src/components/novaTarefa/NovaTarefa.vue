@@ -77,8 +77,6 @@ export default {
         .then(
           (response) => {
             if (response.status === 200 && response.body) {
-              console.warn("tarefa criada com sucesso");
-              debugger
               this.$parent.adicionarTarefa(response.body)
               this.limparDescricao()
               this.ehVisivel = false;

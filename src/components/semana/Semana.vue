@@ -1,5 +1,5 @@
 <template>
-  <div class="semanaa" :id="this.semana.num">
+  <b-row>
     <dia
       v-for="dia in this.semana.dias"
       :key="dia.id"
@@ -10,7 +10,7 @@
       :indiceSemana="indice"
       :mostrarEsconderTipo="mostrarTipo"
     />
-  </div>
+  </b-row>
 </template>
 
 <script>
@@ -111,6 +111,10 @@ export default {
 </script>
 
 <style>
+body, html {
+  height: 100%;
+}
+
 .semanaa {
   display: flex;
   overflow: auto;

@@ -1,5 +1,5 @@
 <template>
-  <li class="diaa" :class="estiloFds" :id="this.id" @dragover="onDragOver" @drop="onDrop">
+  <b-col class="diaa" :class="estiloFds" :id="this.id" @dragover="onDragOver" @drop="onDrop">
     <h6 class="data-subtitulo">{{ this.id }}</h6>
     <ul class="tarefas">
       <li v-for="tarefa in this.dia.tarefas" :key="tarefa.id">
@@ -13,7 +13,7 @@
     <div style="text-align: right; font-size: 10px">
       R$ {{ this.obterSaldo()   }}
     </div>
-  </li>
+  </b-col>
 </template>
 
 <script>
@@ -120,8 +120,6 @@ export default {
   border: 0px;
   border-color: #dddddd;
   border-style: solid;
-  width: 14.28%;
-  min-width: 180px;
   max-height: 350px;
   overflow: scroll;
   white-space: nowrap;

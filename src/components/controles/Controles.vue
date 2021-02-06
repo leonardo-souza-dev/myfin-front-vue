@@ -1,5 +1,5 @@
 <template>
-  <div style="margin-top: 96px;">
+  <b-col cols="1" class="controles">
     <b-form-checkbox
       id="afazeres"
       value='{ "tipo": "afazer", "mostrar": true }'
@@ -16,7 +16,7 @@
     >
       Transações
     </b-form-checkbox>
-  </div>
+  </b-col>
 </template>
 
 <script>
@@ -40,5 +40,13 @@ export default {
 </script>
 
 <style scoped>
+.controles {
+  float: left;
+  width: 10%;
+  display: block;
+  height: 100%;
+  margin-top: 96px;
+  font-size: 10px;
+}
 
 </style>

@@ -1,29 +1,30 @@
 <template>
-  <div>
-    <div class="controles">
+  <b-container fluid>
+    <b-row>
+      
       <controles />
-    </div>
-    <div class="ano">
-      <div class="semanaa">
-        <div class="diaa fdss">dom</div>
-        <div class="diaa">seg</div>
-        <div class="diaa">ter</div>
-        <div class="diaa">qua</div>
-        <div class="diaa">qui</div>
-        <div class="diaa">sex</div>
-        <div class="diaa fdss">sab</div>
-      </div>
-      <div v-for="(semana, indice) in this.semanas" :key="semana.id">
-        <semana
+      
+      <b-col cols="11">
+        <b-row>
+          <b-col>dom</b-col>
+          <b-col>seg</b-col>
+          <b-col>ter</b-col>
+          <b-col>qua</b-col>
+          <b-col>qui</b-col>
+          <b-col>sex</b-col>
+          <b-col>sab</b-col>
+        </b-row>
+
+        <semana v-for="(semana, indice) in this.semanas" :key="semana.id"
           :mostrarTipo="tiposMostrar"
           :semana="semana"
           :dataInicial="semana.dias[0].data"
           :indice="indice"
           :removerTarefa="avisoRemoverTarefa"
         />
-    </div>
-    </div>
-  </div>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
@@ -116,11 +117,6 @@ export default {
   float: left;
   width: 90%;
   /*min-width: 700px;*/
-}
-.controles {
-  float: left;
-  width: 10%;
-  /*min-width: 100px;*/
 }
 .num-semana{
   position: absolute;
