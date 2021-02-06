@@ -1,6 +1,6 @@
 <template>
   <div>
-    <ul class="semanaa" :id="this.semana.num">
+    <div class="semanaa" :id="this.semana.num">
       <dia
         v-for="dia in this.semana.dias"
         :key="dia.id"
@@ -9,8 +9,9 @@
         :id="dia.data.substring(0, 10)"
         :dia="dia"
         :indiceSemana="indice"
+        :mostrarEsconderTipo="mostrarTipo"
       />
-    </ul>
+    </div>
   </div>
 </template>
 
@@ -21,7 +22,7 @@ export default {
   components: {
     dia: Dia,
   },
-  props: ["semana", "diaInicial", "indice"],
+  props: ["semana", "diaInicial", "indice", "mostrarTipo"],
   name: "semana",
   data() {
     return {
@@ -33,7 +34,6 @@ export default {
   },
   methods: {
     tirarTarefa(id, dataAntiga, indiceSemanaAntiga){
-      const numDestaSemana = this.semana.num
       for(let i = 0; i < this.semana.dias.length; i++) {
         const dia = this.semana.dias[i];
         if (dia.data === dataAntiga){
@@ -45,7 +45,6 @@ export default {
       this.$parent.removerTarefa3(id, data, indiceSemanaAntiga);
     },
     removerTarefa(id, data) {
-      var numDestaSemana = this.semana.num;
       const dataConvertida = this.$converterData(data);
       const diaIndice = new Date(dataConvertida).getDay();
       //debugger
@@ -104,7 +103,7 @@ export default {
 
       return domingo;
     },
-  },
+  }
 };
 </script>
 

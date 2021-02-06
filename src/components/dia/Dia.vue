@@ -6,7 +6,7 @@
     <h6 class="data-subtitulo">{{ this.id }}</h6>
     <ul class="tarefas">
       <li v-for="tarefa in this.dia.tarefas" :key="tarefa.id">
-        <tarefa :tarefa="tarefa" :indiceSemana="indiceSemana" />
+        <tarefa :tarefa="tarefa" :indiceSemana="indiceSemana" :mostrarEsconderTipo="mostrarEsconderTipo"/>
       </li>
     </ul>
     <nova-tarefa :dia="this.id" />
@@ -14,7 +14,7 @@
       Saldo do dia:
     </div>
     <div style="text-align: right; font-size: 10px">
-      {{ this.obterSaldo()   }}
+      R$ {{ this.obterSaldo()   }}
     </div>
   </li>
 </template>
@@ -25,7 +25,7 @@ import NovaTarefa from "../novaTarefa/NovaTarefa.vue";
 
 export default {
   name: "dia",
-  props: ["dia", "id", "removerTarefaListener", "indiceSemana"],
+  props: ["dia", "id", "removerTarefaListener", "indiceSemana", "mostrarEsconderTipo"],
   components: {
     tarefa: Tarefa,
     novaTarefa: NovaTarefa,
@@ -108,7 +108,7 @@ export default {
       }
       return saldo
     }
-  },
+  }
 };
 </script>
 

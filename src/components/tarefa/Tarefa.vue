@@ -1,5 +1,5 @@
 <template>
-  <div draggable="true" @dragstart="onDragStart" :id="this.tarefa.id">
+  <div draggable="true" @dragstart="onDragStart" :id="this.tarefa.id" v-if="mostrarEsconder">
     <a @click="showModal()" class="tarefa" :class="concluidoEstilo" >
       <div class="tarefa-detalhe">
         <span class="tarefa-titulo">
@@ -11,8 +11,8 @@
         <div class="badges">
           <div class="badge-text">Pontos: {{ this.tarefa.pontosRealizados }}de{{ this.tarefa.pontosPrevistos }}</div>
         </div>
-        <div v-if="this.tarefa.tipo == 2" class="badges">
-          <div class="badge-text valor">{{ this.tarefa.valor }}</div>
+        <div v-if="this.tarefa.tipo == 'Transacao'" class="badges">
+          <div class="badge-text valor">R$ {{ this.tarefa.valor }}</div>
         </div>
       </div>
     </a>
@@ -79,7 +79,7 @@
 <script>
 export default {
   name: "tarefa",
-  props: [ "tarefa", "indiceSemana" ],
+  props: [ "tarefa", "indiceSemana", "mostrarEsconderTipo" ],
   data() {
     return {
       contaSelecionada: null,
@@ -101,6 +101,17 @@ export default {
     }
   },
   computed: {
+    mostrarEsconder(){
+      console.log('################')
+      console.log(this.mostrarEsconderTipo.tipo)
+      console.log(this.tarefa.tipo)
+      console.log('')
+      if (typeof this.mostrarEsconderTipo.tipo === 'undefined')
+        return true
+      
+      debugger
+      return this.tarefa.tipo.toLowerCase() == this.mostrarEsconderTipo.tipo && this.mostrarEsconderTipo.mostrar
+    },
     concluidoEstilo: function(){
       if (this.tarefa.concluido === true){
         return "tarefa-concluida"
@@ -167,24 +178,29 @@ export default {
       this.tarefa.semanaAntiga = this.indiceSemana
       e.dataTransfer.setData("text/plain", JSON.stringify(this.tarefa));
     },
+    mostrarEsconderTipoFn: function(){
+      debugger
+      if (this.mostrarTipo == 'afazer-mostrar') {
+        console.warn('afazerrrrr')
+      } else if (this.mostrarTipo == 'transacao-mostrar') {
+        console.warn('transacaooooo')
+      }
+    }
   },
 };
 </script>
 
 <style scoped>
 .tarefa-concluida {
-  background-color: greenyellow !important;
+  background-color: rgb(84, 233, 39) !important;
 }
 .tarefa {
   border: 0px;
   border-color: black;
   border-style: solid;
-  margin: 2px;
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: 10px;
-  padding: 1px;
-  padding-left: 8px;
   text-align: left;
   display: flex;
   flex-direction: row;
@@ -192,10 +208,16 @@ export default {
   border-radius: 3px;
   box-shadow: 0 1px 0 rgba(9,30,66,.25);
   cursor: pointer;
+
   margin-bottom: 8px;
+  margin: 3px;
+  padding: 1px;
+  padding-left: 8px;
+
   max-width: 300px;
   width: 100%;
-  min-height: 84px;
+  min-height: 66px;
+
   position: relative;
   text-decoration: none;
   z-index: 0;

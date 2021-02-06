@@ -4,29 +4,24 @@
       <controles />
     </div>
     <div class="ano">
-      <ul class="cabecalho-dias-da-semana">
-        <li>        
-          <ul class="semanaa">
-            <li class="diaa fdss"><h4>dom</h4></li>
-            <li class="diaa"><h4>seg</h4></li>
-            <li class="diaa"><h4>ter</h4></li>
-            <li class="diaa"><h4>qua</h4></li>
-            <li class="diaa"><h4>qui</h4></li>
-            <li class="diaa"><h4>sex</h4></li>
-            <li class="diaa fdss"><h4>sab</h4></li>
-          </ul>
-        </li>
-      </ul>
-      <ul class="cabecalho-dias-da-semana">
-        <li v-for="(semana, indice) in this.semanas" :key="semana.id">
-          <semana
-            :semana="semana"
-            :dataInicial="semana.dias[0].data"
-            :indice="indice"
-            :removerTarefa="avisoRemoverTarefa"
-          />
-        </li>
-      </ul>
+      <div class="semanaa">
+        <div class="diaa fdss">dom</div>
+        <div class="diaa">seg</div>
+        <div class="diaa">ter</div>
+        <div class="diaa">qua</div>
+        <div class="diaa">qui</div>
+        <div class="diaa">sex</div>
+        <div class="diaa fdss">sab</div>
+      </div>
+      <div v-for="(semana, indice) in this.semanas" :key="semana.id">
+        <semana
+          :mostrarTipo="tiposMostrar"
+          :semana="semana"
+          :dataInicial="semana.dias[0].data"
+          :indice="indice"
+          :removerTarefa="avisoRemoverTarefa"
+        />
+    </div>
     </div>
   </div>
 </template>
@@ -45,11 +40,18 @@ export default {
     return {
       dataInicial: this.obterUltimoDomingo(),
       //dataInicial: new Date('2021-01-24 00:00:00.000'),
-      semanas: [],
+      semanas: [ ],
       qtdSemanas: 6,
+      tiposMostrar: "todos"
     };
   },
   methods: {
+    mostrarEsconderTipo(tipo) {
+      console.log('ano')
+      console.log(tipo)
+      console.log('')
+      this.tiposMostrar = tipo
+    },
     avisoRemoverTarefa() {},
     removerTarefa3(id, dataAntiga, indiceSemanaAntiga) {
       this.semanas[indiceSemanaAntiga].tirarTarefa(
