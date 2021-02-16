@@ -1,5 +1,5 @@
 <template>
-  <b-row>
+  <b-row class="semana2">
     <dia
       v-for="dia in this.semana.dias"
       :key="dia.id"
@@ -8,7 +8,7 @@
       :id="processarData(dia.data)"
       :dia="dia"
       :indiceSemana="indice"
-      :mostrarEsconderTipo="mostrarTipo"
+      :mostrarTipos="mostrarTipos"
     />
   </b-row>
 </template>
@@ -20,7 +20,7 @@ export default {
   components: {
     dia: Dia,
   },
-  props: ["semana", "diaInicial", "indice", "mostrarTipo"],
+  props: ["semana", "diaInicial", "indice", "mostrarTipos"],
   name: "semana",
   data() {
     return {
@@ -111,9 +111,6 @@ export default {
 </script>
 
 <style>
-body, html {
-  height: 100%;
-}
 
 .semanaa {
   display: flex;
@@ -127,6 +124,11 @@ body, html {
 </style>
 
 <style scoped>
+.semana2{
+  background-color: white;
+  max-height: 17.85vh;
+  overflow: hidden;
+}
 .num-semana{
   position: absolute;
 }

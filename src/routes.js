@@ -1,5 +1,5 @@
 import Semana from "./components/semana/Semana.vue"
-import Ano from "./components/ano/Ano.vue"
+import Mes from "./components/mes/Mes.vue"
 
 export const routes = [
   // {
@@ -8,10 +8,16 @@ export const routes = [
   //   name: "semana",
   //   titulo: "semana"
   // }
+  // {
+  //   path: "",
+  //   component: Ano,
+  //   name: "ano",
+  //   titulo: "ano"
+  // }
   {
     path: "",
-    component: Ano,
-    name: "ano",
-    titulo: "ano"
+    component: Mes,
+    name: "mes",
+    titulo: "mes"
   }
 ];

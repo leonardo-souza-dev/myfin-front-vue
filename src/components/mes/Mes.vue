@@ -2,10 +2,13 @@
   <b-container fluid>
     <b-row>
       
-      <controles @foo="msgRecebida" />
       
-      <b-col cols="11">
+      <b-col cols="12" class="mes">
         <b-row>
+          <div style="margin-left: 400px;">FEVEREIRO</div>
+          <controles @foo="msgRecebida" />
+        </b-row>
+        <b-row class="titulos-dias-da-semana">
           <b-col>dom</b-col>
           <b-col>seg</b-col>
           <b-col>ter</b-col>
@@ -39,7 +42,7 @@ export default {
   },
   data() {
     return {
-      dataInicial: this.obterUltimoDomingo(),
+      primeiroDiaExibir: this.obterPrimeiroDiaExibir(),
       semanas: [],
       qtdSemanas: 5,
       tipos: []
@@ -67,10 +70,11 @@ export default {
 
       return ano + "-" + mes + "-" + dia;
     },
-    obterUltimoDomingo() {
-      const hoje = new Date();
-      const defasagemDeDomingo = -hoje.getDay();
-      const domingo = this.somaDias(hoje, defasagemDeDomingo);
+    obterPrimeiroDiaExibir() {
+      const hoje = new Date()
+      const dataBase = new Date(hoje.getFullYear(), hoje.getMonth(), 1)
+      const defasagemDeDomingo = -dataBase.getDay()
+      const domingo = this.somaDias(dataBase, defasagemDeDomingo)
 
       return domingo;
     },
@@ -82,10 +86,10 @@ export default {
     },
   },
   created() {
-    const dataInicialParam = this.formatarData(this.dataInicial);
+    const primeiroDiaParam = this.formatarData(this.primeiroDiaExibir);
     this.$http
       .get(
-        `https://localhost:7001/obter-semanas?primeiroDia=${dataInicialParam}&qtdSemanas=${this.qtdSemanas}`
+        `https://localhost:7001/obter-semanas?primeiroDia=${primeiroDiaParam}&qtdSemanas=${this.qtdSemanas}`
       )
       .then((res) => res.json())
       .then(
@@ -112,6 +116,9 @@ export default {
 </script>
 
 <style scoped>
+.titulos-dias-da-semana {
+  text-align: center;
+}
 .ano {
   float: left;
   width: 90%;

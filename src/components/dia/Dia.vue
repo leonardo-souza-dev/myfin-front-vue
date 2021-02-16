@@ -1,16 +1,31 @@
 <template>
   <b-col class="diaa" :class="estiloFds" :id="this.id" @dragover="onDragOver" @drop="onDrop">
-    <h6 class="data-subtitulo">{{ this.id }}</h6>
-    <ul class="tarefas">
-      <tarefa v-for="tarefa in this.dia.tarefas" :key="tarefa.id" :tarefa="tarefa" :indiceSemana="indiceSemana" :mostrarEsconderTipo="mostrarEsconderTipo"/>
-    </ul>
+    <h6 class="data-subtitulo">{{ this.formatarDia(this.id) }}</h6>
     <nova-tarefa :dia="this.id" />
-    <div style="text-align: left; font-size: 10px; float: left">
-      Saldo do dia:
+    <div v-if="mostrarTipos.includes('transacao')">
+      <div style="text-align: left; font-size: 10px; float: left" >
+        Saldo total:
+      </div>
+      <div style="text-align: right; font-size: 10px">
+        R$ {{ this.obterSaldo()   }}
+      </div>
     </div>
-    <div style="text-align: right; font-size: 10px">
-      R$ {{ this.obterSaldo()   }}
+    <div v-if="mostrarTipos.includes('transacao')">
+      <div style="text-align: left; font-size: 10px; float: left" >
+        Saldo do dia:
+      </div>
+      <div style="text-align: right; font-size: 10px">
+        R$ {{ this.obterSaldo()   }}
+      </div>
     </div>
+    
+    <ul class="tarefas">
+      <tarefa v-for="tarefa in this.dia.tarefas" :key="tarefa.id" 
+        :tarefa="tarefa" 
+        :indiceSemana="indiceSemana" 
+        :mostrarTipos="mostrarTipos"
+      />
+    </ul>
   </b-col>
 </template>
 
@@ -20,7 +35,7 @@ import NovaTarefa from "../novaTarefa/NovaTarefa.vue";
 
 export default {
   name: "dia",
-  props: ["dia", "id", "removerTarefaListener", "indiceSemana", "mostrarEsconderTipo"],
+  props: ["dia", "id", "removerTarefaListener", "indiceSemana", "mostrarTipos"],
   components: {
     tarefa: Tarefa,
     novaTarefa: NovaTarefa,
@@ -35,6 +50,10 @@ export default {
     this.estiloFds = this.dia.diaDaSemana === 'dom' || this.dia.diaDaSemana === 'sab' ? 'fdss' : ''
   },
   methods: {
+    formatarDia(data){
+      debugger
+      return data.split('-')[2]
+    },
     retiraTarefa(id) {
       for (let i = 0; i < this.dia.tarefas.length; i++) {
         if (this.dia.tarefas[i].id === id) {
@@ -63,7 +82,7 @@ export default {
       const novaData = this.$converterDeYYYY_MM_DDParaDataISOShort(this.id);
       tarefaJson.data = novaData;
       if (e.currentTarget.getAttribute("diadasemana") !== null) {
-        this.$http.post("https://localhost:5001/alterar", tarefaJson).then(
+        this.$http.post("https://localhost:7001/alterar", tarefaJson).then(
           (response) => {
             if (response.status === 200 && response.body) {
               this.dia.tarefas.push(tarefaJson);
@@ -90,6 +109,7 @@ export default {
       this.$modal.hide("my-first-modal");
     },
     obterSaldo(){
+      
       let saldo = 0
       const tarefas = this.dia.tarefas
       if (typeof tarefas === 'undefined') {
@@ -97,11 +117,11 @@ export default {
       }
       for (var i = 0; i < tarefas.length; i++) {
         const tarefa = tarefas[i]
-        if (tarefa.valor && tarefa.valor > 0){
+        if (tarefa.tipo.toLowerCase() === "transacao" && tarefa.valor > 0){
           saldo += Number(tarefa.valor)
         }
       }
-      return saldo
+      return saldo.toFixed(2)
     }
   }
 };
@@ -112,20 +132,20 @@ export default {
   background-color: #eeeeee !important;
 }
 .diaa {
-  background-color: #d9e6df;
+  background-color: #d3d3d3;
   vertical-align: top;
   display: inline-block;
   border: 0px;
   border-color: #dddddd;
   border-style: solid;
-  max-height: 350px;
+  max-height: 17.85vh;
+  min-height: 100%;
   overflow: scroll;
   white-space: nowrap;
   list-style-type: none;
   float: left;
-  padding: 6px;
-  margin: 1px;
-  height: fit-content;
+  padding: 0px;
+  deletarmargin: 1px;
   border-radius: 4px;
 }
 </style>
@@ -143,11 +163,12 @@ export default {
   margin: 0px;
 }
 .data-subtitulo {
-  width: 100%;
+  width: 50%;
   padding: 6px;
   text-align: center;
   margin-bottom: 8px;
   font-size: 13px;
+  float:left;
 }
 .tarefas {
   list-style-type: none;

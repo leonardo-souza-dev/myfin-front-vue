@@ -1,5 +1,5 @@
 <template>
-  <div :style="{ display: 'grid' }" >
+  <div >
     <input
       class="input-descricao"
       type="text"
@@ -13,7 +13,7 @@
       @click="adicionarTarefa()" 
       @mouseover="mouseOverCriarTarefa"
       @mouseout="mouseOutCriarTarefa"
-      >+ Criar tarefa</button>
+      >+ Criar </button>
   </div>
 </template>
 
@@ -73,7 +73,7 @@ export default {
           pontosPrevistos: pontosPrevistos
       }
       this.$http
-        .put("https://localhost:5001/criar", novaTarefa)
+        .put("https://localhost:7001/criar", novaTarefa)
         .then(
           (response) => {
             if (response.status === 200 && response.body) {
@@ -107,7 +107,7 @@ export default {
   text-overflow: ellipsis;
   font-size: 10px;
   padding: 1px;
-  width: 100%;
+  width: 40%;
   height: 36px;
 }
 .nova-tarefa-mouseover {

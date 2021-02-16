@@ -1,5 +1,6 @@
 <template>
-  <li style="padding-bottom: 2px" class="tarefa" :class="concluidoEstilo" draggable="true" @dragstart="onDragStart" :id="this.tarefa.id" v-if="mostrarEsconder">
+  <li style="padding-bottom: 2px" class="tarefa" :class="concluidoEstilo" draggable="true" @dragstart="onDragStart" 
+    :id="this.tarefa.id" v-if="mostrar">
     <a @click="showModal()"  >
       <div class="tarefa-detalhe">
         <span class="tarefa-titulo">
@@ -79,7 +80,7 @@
 <script>
 export default {
   name: "tarefa",
-  props: [ "tarefa", "indiceSemana", "mostrarEsconderTipo" ],
+  props: [ "tarefa", "indiceSemana", "mostrarTipos" ],
   data() {
     return {
       contaSelecionada: null,
@@ -101,16 +102,17 @@ export default {
     }
   },
   computed: {
-    mostrarEsconder(){
-      console.log('################')
-      console.log(this.mostrarEsconderTipo.tipo)
-      console.log(this.tarefa.tipo)
-      console.log('')
-      if (typeof this.mostrarEsconderTipo.tipo === 'undefined')
-        return true
+    mostrar(){
+      // console.log('################')
+      // console.log(this.mostrarTipos)
+      // console.log(this.tarefa.tipo)
+      // console.log('')
       
-      debugger
-      return this.tarefa.tipo.toLowerCase() == this.mostrarEsconderTipo.tipo && this.mostrarEsconderTipo.mostrar
+      if (typeof this.mostrarTipos === 'undefined') {
+        return true
+      }
+      //debugger
+      return this.mostrarTipos.includes(this.tarefa.tipo.toLowerCase())
     },
     concluidoEstilo: function(){
       if (this.tarefa.concluido === true){
@@ -140,8 +142,11 @@ export default {
     },
     hideModal1() {
       if (this._tarefaAlterada()) {
+
+        this.$postMessage(this.tarefa, "alteracaoMensagem")
+
         this.$http
-          .post("https://localhost:5001/alterar", this.tarefa)
+          .post("https://localhost:7001/alterar", this.tarefa)
           .then(
             (response) => {
               if (response.status === 200 && response.body) {
@@ -210,20 +215,20 @@ export default {
   cursor: pointer;
 
   margin-bottom: 8px;
-  margin: 3px;
+  margin: 2px;
   padding: 1px;
   padding-left: 8px;
 
-  max-width: 300px;
+  max-width: 97%;
   width: 100%;
-  min-height: 66px;
+  min-height: 12px;
+  max-height: 24px;
 
   position: relative;
   text-decoration: none;
   z-index: 0;
   color: #172b4d;
   white-space: normal;
-  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Noto Sans,Ubuntu,Droid Sans,Helvetica Neue,sans-serif;
 }
 .tarefa-detalhe {
   overflow: hidden;
@@ -231,6 +236,8 @@ export default {
   position: relative;
   z-index: 10;
   width: 100%;
+  white-space: nowrap;
+  font-family: Roboto,Helvetica,Arial,sans-serif;
 }
 .tarefa-titulo{
   clear: both;
@@ -241,6 +248,7 @@ export default {
   text-decoration: none;
   word-wrap: break-word;
   color: #172b4d;
+  margin-top: -3px;
 }
 .badges {
   float: left;
@@ -269,6 +277,6 @@ export default {
   opacity: 80%;;
 }
 .valor {
-  text-align: right;
+  text-align: left;
 }
 </style>
