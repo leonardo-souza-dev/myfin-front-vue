@@ -102,16 +102,11 @@ export default {
     }
   },
   computed: {
-    mostrar(){
-      // console.log('################')
-      // console.log(this.mostrarTipos)
-      // console.log(this.tarefa.tipo)
-      // console.log('')
-      
+    mostrar(){      
       if (typeof this.mostrarTipos === 'undefined') {
         return true
       }
-      //debugger
+      
       return this.mostrarTipos.includes(this.tarefa.tipo.toLowerCase())
     },
     concluidoEstilo: function(){

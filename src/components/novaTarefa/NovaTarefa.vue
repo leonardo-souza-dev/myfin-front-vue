@@ -101,14 +101,14 @@ export default {
   border: 0px;
   border-color: black;
   border-style: solid;
-  margin: 2px;
+  margin: 1px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  font-size: 10px;
+  font-size: 9px;
   padding: 1px;
   width: 40%;
-  height: 36px;
+  height: 22px;
 }
 .nova-tarefa-mouseover {
   background-color: #c3d3cb;
@@ -116,13 +116,13 @@ export default {
   border: 0px;
   border-color: black;
   border-style: solid;
-  margin: 2px;
+  margin: 1px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  font-size: 10px;
+  font-size: 9px;
   padding: 1px;
-  width: 100%;
-  height: 36px;
+  width: 40%;
+  height: 22px;
 }
 </style>

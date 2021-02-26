@@ -119,15 +119,17 @@ export default {
   white-space: nowrap;
   background-color: #ffffff;
   width: 100%;
-  list-style-type: none;
+  list-style-type: none;;
 }
 </style>
 
 <style scoped>
 .semana2{
-  background-color: white;
-  max-height: 17.85vh;
+  background-color: red;
+  deletarmax-height: 18.8vh;
+  height: 168px;
   overflow: hidden;
+  border-bottom: 1px solid #333300;
 }
 .num-semana{
   position: absolute;

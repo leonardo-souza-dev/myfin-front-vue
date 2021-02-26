@@ -1,31 +1,38 @@
 <template>
-  <b-col class="diaa" :class="estiloFds" :id="this.id" @dragover="onDragOver" @drop="onDrop">
-    <h6 class="data-subtitulo">{{ this.formatarDia(this.id) }}</h6>
-    <nova-tarefa :dia="this.id" />
-    <div v-if="mostrarTipos.includes('transacao')">
-      <div style="text-align: left; font-size: 10px; float: left" >
-        Saldo total:
-      </div>
-      <div style="text-align: right; font-size: 10px">
-        R$ {{ this.obterSaldo()   }}
+  <b-col class="diaa" 
+         :class="estiloFds" 
+         :id="this.id" 
+         @dragover="onDragOver" 
+         @drop="onDrop">
+    <div class="header-dia">
+      <h6 class="data-subtitulo">{{ this.formatarDia(this.id) }}</h6>
+      <nova-tarefa :dia="this.id" />
+      <div v-show="mostrarTipos.includes('transacao')" class="saldo-total">
+        <div style="text-align: left; font-size: 9px; float: left" >
+          Saldo total:
+        </div>
+        <div style="text-align: right; font-size: 9px">
+          R$ {{ this.obterSaldo()   }}
+        </div>
+      <!--</div>
+      <div v-show="mostrarTipos.includes('transacao')">-->
+        <div style="text-align: left; font-size: 9px; float: left" >
+          Saldo do dia:
+        </div>
+        <div style="text-align: right; font-size: 9px">
+          R$ {{ this.obterSaldo()   }}
+        </div>
       </div>
     </div>
-    <div v-if="mostrarTipos.includes('transacao')">
-      <div style="text-align: left; font-size: 10px; float: left" >
-        Saldo do dia:
-      </div>
-      <div style="text-align: right; font-size: 10px">
-        R$ {{ this.obterSaldo()   }}
-      </div>
+    <div class="tarefas-wrapper">
+      <ul class="tarefas">
+        <tarefa v-for="tarefa in this.dia.tarefas" :key="tarefa.id" 
+          :tarefa="tarefa" 
+          :indiceSemana="indiceSemana" 
+          :mostrarTipos="mostrarTipos"
+        />
+      </ul>
     </div>
-    
-    <ul class="tarefas">
-      <tarefa v-for="tarefa in this.dia.tarefas" :key="tarefa.id" 
-        :tarefa="tarefa" 
-        :indiceSemana="indiceSemana" 
-        :mostrarTipos="mostrarTipos"
-      />
-    </ul>
   </b-col>
 </template>
 
@@ -132,21 +139,24 @@ export default {
   background-color: #eeeeee !important;
 }
 .diaa {
-  background-color: #d3d3d3;
+  background-color: green;
   vertical-align: top;
   display: inline-block;
   border: 0px;
   border-color: #dddddd;
   border-style: solid;
-  max-height: 17.85vh;
-  min-height: 100%;
-  overflow: scroll;
+  deletarmax-height: 17.85vh;
+  deletarmin-height: 100%;
+  overflow: hidden;
   white-space: nowrap;
   list-style-type: none;
   float: left;
-  padding: 0px;
-  deletarmargin: 1px;
   border-radius: 4px;
+  border-left: 1px solid #330033;
+
+  margin: 0px;
+  padding: 0px;
+  height: 167px;
 }
 </style>
 
@@ -174,5 +184,13 @@ export default {
   list-style-type: none;
   margin: 0px;
   padding: 0px;
+  height: 100%;
+}
+
+.tarefas-wrapper {
+  deletarheight: 13vh;
+  overflow-y: scroll;
+  width: 100%;
+  max-height: 68%;
 }
 </style>

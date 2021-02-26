@@ -1,14 +1,15 @@
 <template>
   <b-container fluid>
-    <b-row>
-      
+    <b-row>      
       
       <b-col cols="12" class="mes">
-        <b-row>
-          <div style="margin-left: 400px;">FEVEREIRO</div>
+
+        <b-row style="height: 52px;border-bottom: 1px solid #333300;">
+          <div style="margin-left: 400px;">{{ this.meses[new Date().getMonth()] }}</div>
           <controles @foo="msgRecebida" />
         </b-row>
-        <b-row class="titulos-dias-da-semana">
+
+        <b-row class="titulos-dias-da-semana" style="height: 25px;border-bottom: 1px solid #333300;">
           <b-col>dom</b-col>
           <b-col>seg</b-col>
           <b-col>ter</b-col>
@@ -25,6 +26,7 @@
           :indice="indice"
           :removerTarefa="avisoRemoverTarefa"
         />
+
       </b-col>
     </b-row>
   </b-container>
@@ -44,11 +46,20 @@ export default {
     return {
       primeiroDiaExibir: this.obterPrimeiroDiaExibir(),
       semanas: [],
-      qtdSemanas: 5,
-      tipos: []
+      qtdSemanas: 10,
+      tipos: [],
+      meses: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
     };
   },
   methods: {
+    converterMes(val, lista){
+      for(var x in lista){
+          if(lista[x] === val){
+              return x;
+          } 
+      }
+      return null;
+    },
     msgRecebida(tipos){
       this.tipos = tipos
     },
