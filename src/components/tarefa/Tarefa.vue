@@ -124,6 +124,9 @@ export default {
     }
   },
   methods: {
+    compactarEvent(){
+      console.log("compactar no tarefe.vue")
+    },
     showModal() {
       this.$refs["rating-modal"].show();
 
@@ -141,7 +144,7 @@ export default {
         this.$postMessage(this.tarefa, "alteracaoMensagem")
 
         this.$http
-          .post("https://localhost:7001/alterar", this.tarefa)
+          .post("http://127.0.0.1:7001/alterar", this.tarefa)
           .then(
             (response) => {
               if (response.status === 200 && response.body) {
@@ -216,8 +219,8 @@ export default {
 
   max-width: 97%;
   width: 100%;
-  min-height: 12px;
-  max-height: 24px;
+  min-height: 48px;
+  max-height: 48px;
 
   position: relative;
   text-decoration: none;
@@ -231,7 +234,7 @@ export default {
   position: relative;
   z-index: 10;
   width: 100%;
-  white-space: nowrap;
+  delwhite-space: nowrap;
   font-family: Roboto,Helvetica,Arial,sans-serif;
 }
 .tarefa-titulo{

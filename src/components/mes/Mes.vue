@@ -100,7 +100,7 @@ export default {
     const primeiroDiaParam = this.formatarData(this.primeiroDiaExibir);
     this.$http
       .get(
-        `https://localhost:7001/obter-semanas?primeiroDia=${primeiroDiaParam}&qtdSemanas=${this.qtdSemanas}`
+        `http://127.0.0.1:7001/obter-semanas?primeiroDia=${primeiroDiaParam}&qtdSemanas=${this.qtdSemanas}`
       )
       .then((res) => res.json())
       .then(
@@ -111,7 +111,7 @@ export default {
       );
 
     this.$http
-      .get(`https://localhost:7001/obter-contas`)
+      .get(`http://127.0.0.1:7001/obter-contas`)
       .then((res) => res.json())
       .then(
         (dados) => {

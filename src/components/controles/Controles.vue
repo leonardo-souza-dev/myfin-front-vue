@@ -1,24 +1,16 @@
 <template>
   <b-col cols="1" class="controles">
-    <!-- <b-form-checkbox switch
-      id="afazeres"
-      checked
-      value='{ "tipo": "afazer", "mostrar": true }'
-      unchecked-value='{ "tipo": "afazer", "mostrar": false }'
-      @input="mostrarEsconderTipo"
-    >
-      Afazeres
-    </b-form-checkbox>
     <b-form-checkbox switch
-      id="transacao"
-      v-model="checado"
-      value='{ "tipo": "transacao", "mostrar": true }'
-      unchecked-value='{ "tipo": "transacao", "mostrar": false }'
-      @input="mostrarEsconderTipo"
+      id="compacto"
+      checked
+      value='false'
+      unchecked-value='true'
+      @input="compactar"
     >
-      Transações
-    </b-form-checkbox> -->
+      Modo compacto
+    </b-form-checkbox>
     <b-form-checkbox-group
+      style="float: left"
       v-model="selected"
       :options="options"
       class="mb-3"
@@ -56,7 +48,12 @@ export default {
     },
     mostrarTipo(tipo) {
       this.$parent.mostrarTipos(tipo)
-    }    
+    },
+    compactar(){
+      console.log("compactar")
+      this.$emit('compactarEvent')
+
+    }
   },
   created() {
     this.$emit('foo', this.selected)

@@ -1,5 +1,5 @@
 <template>
-  <div >
+  <div>
     <input
       class="input-descricao"
       type="text"
@@ -73,7 +73,7 @@ export default {
           pontosPrevistos: pontosPrevistos
       }
       this.$http
-        .put("https://localhost:7001/criar", novaTarefa)
+        .put("http://127.0.0.1:7001/criar", novaTarefa)
         .then(
           (response) => {
             if (response.status === 200 && response.body) {

@@ -2,6 +2,7 @@
   <b-col class="diaa" 
          :class="estiloFds" 
          :id="this.id" 
+         @click="chamarModalNovaTarefa"
          @dragover="onDragOver" 
          @drop="onDrop">
     <div class="header-dia">
@@ -33,12 +34,15 @@
         />
       </ul>
     </div>
+
+    <modal-nova-tarefa ref="modal-nova-tarefa" />
   </b-col>
 </template>
 
 <script>
 import Tarefa from "../tarefa/Tarefa.vue";
 import NovaTarefa from "../novaTarefa/NovaTarefa.vue";
+import ModalNovaTarefa from "../modalNovaTarefa/ModalNovaTarefa.vue"
 
 export default {
   name: "dia",
@@ -46,6 +50,7 @@ export default {
   components: {
     tarefa: Tarefa,
     novaTarefa: NovaTarefa,
+    modalNovaTarefa: ModalNovaTarefa
   },
   data() {
     return {
@@ -58,7 +63,7 @@ export default {
   },
   methods: {
     formatarDia(data){
-      debugger
+      //debugger
       return data.split('-')[2]
     },
     retiraTarefa(id) {
@@ -75,6 +80,10 @@ export default {
     avisarSemanaRemocaoTarefa(idTarefa, diaNovo) {
       this.$emit("removerTarefaListener", idTarefa, diaNovo);
     },
+    chamarModalNovaTarefa(){
+      console.warn('incluindo tarefa')
+      this.$refs["modal-nova-tarefa"].show();
+    },
     onDragOver: function (event) {
       event.preventDefault();
       event.stopPropagation();
@@ -86,10 +95,11 @@ export default {
       let tarefaJson = JSON.parse(e.dataTransfer.getData("text/plain"));
 
       const dataAntiga = tarefaJson.data;
-      const novaData = this.$converterDeYYYY_MM_DDParaDataISOShort(this.id);
+
+      const novaData = converterDeYYYY_MM_DDParaDataISOShort(this.id);
       tarefaJson.data = novaData;
       if (e.currentTarget.getAttribute("diadasemana") !== null) {
-        this.$http.post("https://localhost:7001/alterar", tarefaJson).then(
+        this.$http.post("http://127.0.0.1:7001/alterar", tarefaJson).then(
           (response) => {
             if (response.status === 200 && response.body) {
               this.dia.tarefas.push(tarefaJson);
@@ -104,6 +114,29 @@ export default {
             console.error(response);
           }
         );
+      }
+
+      function converterDeYYYY_MM_DDParaDataISOShort(dataYYYY_MM_DD){
+        if (dataYYYY_MM_DD === undefined) {
+          throw "data é undefined"
+        }
+
+        let dc = _converterDeYYYY_MM_DD(dataYYYY_MM_DD)
+        const horasDiferenca = dc.getTimezoneOffset() / 60
+        dc.setHours(dc.getHours() - horasDiferenca)
+        return dc.toISOString().substring(0, 19)
+      }
+
+      function _converterDeYYYY_MM_DD(data){
+        return _comum(data.split('T')[0].split('-'))
+      }
+
+      function _comum(data){
+        const ano = data[0]
+        const mesIndice = Number(data[1]) - 1
+        const dia = data[2]
+
+        return new Date(ano, mesIndice, dia)
       }
     },
     mudaDiaDaSemanaTemp() {
@@ -156,7 +189,7 @@ export default {
 
   margin: 0px;
   padding: 0px;
-  height: 167px;
+  height: 100%;
 }
 </style>
 

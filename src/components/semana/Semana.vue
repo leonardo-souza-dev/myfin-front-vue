@@ -125,9 +125,9 @@ export default {
 
 <style scoped>
 .semana2{
-  background-color: red;
+  background-color: white;
   deletarmax-height: 18.8vh;
-  height: 168px;
+  height: 368px;
   overflow: hidden;
   border-bottom: 1px solid #333300;
 }
